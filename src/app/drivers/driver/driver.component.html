@@ -1,0 +1,12 @@
+<td style="cursor: pointer" [routerLink]="['/truckdrivers', driver.id]">
+  {{driver.fullName}}
+</td>
+<td>{{driver.tel}}</td>
+<td> {{driver.idDocument}}</td>
+<td style="cursor: pointer" [routerLink]="['/carriers', driver.carrierSap]">
+  {{driver.carrierName}}
+</td>
+<td *ngIf="!driver.truckPlates"></td>
+<td *ngIf="driver.truckPlates" style="cursor: pointer" [routerLink]="['/trucks', driver.truckPlates]">
+  {{driver.truckPlates}}
+</td>

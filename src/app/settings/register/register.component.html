@@ -1,0 +1,35 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="container-md">
+  <h3>Register new user</h3>
+  <form [formGroup]="newUserForm" (ngSubmit)="onRegisterNewUser()">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" formControlName="username"
+             [ngClass]="{'is-valid' : newUserForm.get('username').valid, 'is-invalid': newUserForm.get('username').invalid && newUserForm.get('username').touched}">
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter valid username</div>
+    </div>
+    <div class="form-group">
+      <label>User email</label>
+      <input type="email" class="form-control" formControlName="userEmail"
+             [ngClass]="{'is-valid' : newUserForm.get('userEmail').valid, 'is-invalid': newUserForm.get('userEmail').invalid && newUserForm.get('userEmail').touched}">
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter valid email</div>
+    </div>
+    <div class="mt-3">
+      <div *ngIf="!isLoading && status === 'ok'" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>New user {{tempNewUsername}} was created successfully</strong>
+        <button (click)="status = undefined" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div *ngIf="!isLoading && status === 'notOk'" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>New user {{tempNewUsername}} could not be created, existing email perhaps?</strong>
+        <button (click)="status = undefined" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <button [disabled]="newUserForm.invalid" type="submit" class="btn btn-primary mx-2">Submit</button>
+      <button type="button" class="btn btn-warning mx-2" (click)="onClearNewUserForm()">Clear</button>
+    </div>
+  </form>
+</div>

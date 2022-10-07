@@ -1,0 +1,46 @@
+<td style="cursor: pointer;" [routerLink]="['/carriers', tautliner.carrierSap]">{{tautliner.carrierName}}</td>
+<td  class="position-relative text-center" style="cursor: pointer" [routerLink]="['/tautliners', tautliner.tautlinerPlates]"
+     [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+  {{tautliner.tautlinerPlates}}
+  <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+    XPO
+  </span>
+</td>
+<td *ngIf="!tautliner.truckPlates"></td>
+<td *ngIf="tautliner.truckPlates" style="cursor: pointer" [routerLink]="['/trucks', tautliner.truckPlates]">
+  {{tautliner.truckPlates}}
+</td>
+<td>{{tautliner.xpo}}</td>
+<td>{{tautliner.techInspection | date: 'fullDate'}}</td>
+<td>
+  <button *ngIf="tautliner.xpo" [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"
+          (click)="onTautlinerDelete()">X
+  </button>
+</td>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove tautliner {{tautliner.tautlinerPlates}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

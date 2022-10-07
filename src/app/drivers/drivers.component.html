@@ -1,0 +1,30 @@
+<div *ngIf="isFetching" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<h3 *ngIf="!isFetching && drivers.length === 0" class="mt-5">No Drivers to display</h3>
+
+<div *ngIf="!isFetching && drivers.length > 0" class="container mt-5">
+  <div class="row">
+    <h3>Totals</h3>
+    <div class="col">
+      Drivers: {{drivers.length}}
+    </div>
+  </div>
+  <div class="table-responsive-sm">
+    <table class="table mt-5">
+      <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Mobile</th>
+        <th>Document id</th>
+        <th>Carrier name</th>
+        <th>Truck</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr app-driver [driver]="driver" *ngFor="let driver of drivers"></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

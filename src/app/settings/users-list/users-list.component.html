@@ -1,0 +1,29 @@
+<div *ngIf="isLoading" class="container loading-container" xmlns="http://www.w3.org/1999/html">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Users list</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">User Id</th>
+          <th class="text-center">Username</th>
+          <th class="text-center">User email</th>
+          <th class="text-center">User roles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-user
+            [user]="user" *ngFor="let user of usersList"></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

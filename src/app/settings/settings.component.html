@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <h3>User settings</h3>
+  </div>
+  <div class="row">
+    <div class="col-md-3 border app-settings-list">
+      <div class="row mb-2" style="cursor: pointer" routerLinkActive="active" routerLink="change-password">Change your password</div>
+      <div *ngIf="activeUser.roles.indexOf('ADMIN') > -1" class="row mb-2" style="cursor: pointer" routerLinkActive="active" routerLink="register">Reigister new user</div>
+      <div *ngIf="activeUser.roles.indexOf('ADMIN') > -1" class="row mb-2" style="cursor: pointer" routerLinkActive="active" routerLink="users-list">Users list</div>
+    </div>
+    <div class="col border" style="height: 70vh">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

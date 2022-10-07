@@ -1,0 +1,126 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="container">
+  <div class="row mt-5 mb-3">
+    <div class="col-auto" style="padding-right: 0">
+      <div class="h3 position-relative">{{truck.truckPlates}}</div>
+    </div>
+    <div class="col-auto" style="padding-left: 0">
+      <span style="font-size: .7rem" class="badge badge-pill bg-success">MEGA</span>
+    </div>
+
+    <div class="col-auto">
+      <button class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#editTruckModal"
+      >Edit
+      </button>
+    </div>
+  </div>
+  <div class="row" style="cursor: pointer" [routerLink]="['/carriers', truck.carrierSap]">
+    <p>Carrier: {{truck.carrierName}}</p>
+  </div>
+
+  <div *ngIf="truck.tautlinerPlates" class="row">
+    <div class="col-auto" style="cursor: pointer;padding-right: 0"
+         [routerLink]="['/tautliners', truck.tautlinerPlates]">
+      <p class="position-relative">Tautliner: {{truck.tautlinerPlates}}</p>
+    </div>
+    <div class="col-auto" style="padding-left: 0">
+      <span class="badge badge-pill bg-danger">XPO</span>
+    </div>
+  </div>
+  <div *ngIf="!truck.tautlinerPlates" class="row">
+    <div class="col-auto"><p>Tautliner: None</p></div>
+  </div>
+
+  <div *ngIf="truck.driverid" class="row" style="cursor: pointer" [routerLink]="['/truckdrivers', truck.driverid]">
+    <p>Driver: {{truck.driverFullName}}</p>
+  </div>
+
+  <div *ngIf="!truck.driverid" class="row">
+    <p>Driver: None</p>
+  </div>
+</div>
+
+
+<div id="editTruckModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit truck</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="editTruckForm">
+          <div class="form-group">
+            <label>Plates:</label>
+            <input type="text" class="form-control" formControlName="truckPlates"
+                   [ngClass]="{'is-valid' : editTruckForm.get('truckPlates').valid, 'is-invalid': editTruckForm.get('truckPlates').invalid && editTruckForm.get('truckPlates').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid truck plates with no special characters</div>
+          </div>
+          <div class="form-group">
+            <label>Mega or standard</label>
+            <select class="form-select" formControlName="mega"
+                    [ngClass]="{'is-valid' : editTruckForm.get('mega').valid, 'is-invalid': editTruckForm.get('mega').invalid && editTruckForm.get('mega').dirty}">
+              <option value="true">Mega</option>
+              <option value="false">Standard</option>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please select</div>
+            </select>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Tautliner was updated successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onEditTruckSubmit()"
+                [disabled]="editTruckForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearEditTruckForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onTruckDelete()">Delete
+    Truck
+  </button>
+</div>
+
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove truck {{truck.truckPlates}}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

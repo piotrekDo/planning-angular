@@ -1,0 +1,81 @@
+<div *ngIf="isFetching" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isFetching" class="container mt-5">
+  <div class="row">
+    <h3>Totals</h3>
+    <div class="col">
+      Trucks: {{trucks.length}}
+    </div>
+    <div class="row">
+      Mega trucks: {{megas}}
+    </div>
+  </div>
+</div>
+
+<h3 *ngIf="!isFetching && trucks.length === 0" class="mt-5">No trucks to display</h3>
+
+<div *ngIf="!isFetching && trucks.length > 0" class="container mt-5">
+  <div class="row">
+    <div class="col d-flex flex-column">
+      <label>Carriers:</label>
+      <input [(ngModel)]="carrierSearch" type="text" class="form-control-sm">
+    </div>
+    <div class="col d-flex flex-column">
+      <label>Trucks:</label>
+      <input [(ngModel)]="truckSearch" type="text" class="form-control-sm">
+    </div>
+    <div class="col d-flex flex-column">
+      <label>Tautliners:</label>
+      <input [(ngModel)]="tautlinerSearch" type="text" class="form-control-sm">
+    </div>
+    <div class="col d-flex flex-column">
+      <label>Drivers: </label>
+      <input [(ngModel)]="driverSearch" type="text" class="form-control-sm">
+    </div>
+    <div class="col d-flex flex-column">
+      <label>Mega</label>
+      <select [(ngModel)]="onlyMega" class="form-select-sm">
+        <option value="all">ALL</option>
+        <option value="true">Mega</option>
+        <option value="false">Standard</option>
+      </select>
+    </div>
+    <div class="col d-flex flex-column">
+      <label>XPO</label>
+      <select [(ngModel)]="onlyXPO" class="form-select-sm">
+        <option value="all">ALL</option>
+        <option value="true">XPO</option>
+        <option value="false">Non-XPO</option>
+      </select>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">Carrier</th>
+          <th class="text-center">Plates</th>
+          <th class="text-center">Tautliner</th>
+          <th class="text-center">Driver</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-truck
+            [truck]="truck" *ngFor="let truck of trucks.slice(0)
+    | filter:carrierSearch: 'carrierName'
+    | filter:truckSearch: 'truckPlates'
+    | filter:tautlinerSearch: 'tautlinerPlates'
+    | filter:driverSearch: 'driverFullName'
+    | filter3Way:onlyXPO:'tautlinerIsXpo'
+    | filter3Way:onlyMega:'mega'
+    | sort:'carrierName': false"
+        ></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="container">
+  <div class="row mt-5 mb-3">
+    <div class="col-auto">
+      <div class="h3 position-relative">{{tautliner.tautlinerPlates}}</div>
+    </div>
+    <div class="col-auto" style="padding-left: 0">
+      <span class="badge badge-pill bg-danger">XPO</span>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#editTautlinerModal"
+      >Edit
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!tautliner.carrierSap" class="row">
+    <p>Carrier: None}</p>
+  </div>
+  <div *ngIf="tautliner.carrierSap" class="row" style="cursor: pointer"
+       [routerLink]="['/carriers', tautliner.carrierSap]">
+    <p>Carrier: {{tautliner.carrierName}}</p>
+  </div>
+
+  <div *ngIf="!tautliner.truckPlates" class="row">
+    <p>Truck: None</p>
+  </div>
+  <div *ngIf="tautliner.truckPlates" class="row" style="cursor: pointer"
+       [routerLink]="['/trucks', tautliner.truckPlates]">
+    <p>Truck: {{tautliner.truckPlates}}</p>
+  </div>
+  <div class="row">
+    <p>Technical inspection term: {{tautliner.techInspection | date: 'fullDate'}}</p>
+  </div>
+</div>
+
+
+<div id="editTautlinerModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit tautliner</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="editTautlinerForm">
+          <div class="form-group">
+            <label>Plates:</label>
+            <input type="text" class="form-control" formControlName="tautlinerPlates"
+                   [ngClass]="{'is-valid' : editTautlinerForm.get('tautlinerPlates').valid, 'is-invalid': editTautlinerForm.get('tautlinerPlates').invalid && editTautlinerForm.get('tautlinerPlates').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid plates with no special characters</div>
+          </div>
+          <div class="form-group">
+            <label for="tech">Tech inspection term:</label>
+            <input type="date" id="tech" class="form-control" formControlName="techInspection"
+                   [ngClass]="{'is-valid' : editTautlinerForm.get('techInspection').valid, 'is-invalid': editTautlinerForm.get('techInspection').invalid && editTautlinerForm.get('techInspection').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please select date</div>
+          </div>
+          <div class="form-group">
+            <label>XPO tautliner or carrier's?</label>
+            <select class="form-select" formControlName="xpo"
+                    [ngClass]="{'is-valid' : editTautlinerForm.get('xpo').valid, 'is-invalid': editTautlinerForm.get('xpo').invalid && editTautlinerForm.get('xpo').dirty}">
+              <option value="false">Non Xpo</option>
+              <option value="true">XPO tautliner</option>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please select</div>
+            </select>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Tautliner was updated successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onEditTautlinerSubmit()"
+                [disabled]="editTautlinerForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearEditTautlinerForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onTautlinerDelete()">Delete
+    Tautliner
+  </button>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove tautliner {{tautliner.truckPlates}}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div *ngIf="isFetching" class="container loading-container" xmlns="http://www.w3.org/1999/html">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<h3 *ngIf="!isFetching && carriers.length ===0" class="mt-5">No carriers to display</h3>
+
+<div *ngIf="!isFetching && carriers.length > 0" class="container mt-3">
+  <h3>Carriers</h3>
+  <app-carrier-tab (dataChanged)="fetchData()" [xpoTautliners]="xpoTautliners" [carrier]="carrier" *ngFor="let carrier of carriers"></app-carrier-tab>
+</div>
