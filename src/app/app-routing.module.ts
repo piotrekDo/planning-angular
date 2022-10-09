@@ -4,6 +4,7 @@ import {HomeComponent} from "./home/home.component";
 import {TrucksComponent} from "./trucks/trucks.component";
 import {TautlinersComponent} from "./tautliners/tautliners.component";
 import {DriversComponent} from "./drivers/drivers.component";
+import {CarriersComponent} from "./carriers/carriers.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'trucks', component: TrucksComponent},
   {path: 'tautliners', component: TautlinersComponent},
   {path: 'truckdrivers', component: DriversComponent},
+  {path: 'carriers', component: CarriersComponent},
 ];
 
 @NgModule({

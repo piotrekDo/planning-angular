@@ -1,0 +1,28 @@
+<div *ngIf="isFetching" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isFetching" class="container mt-5">
+  <div class="row">
+    <h3>Totals</h3>
+    <div class="col">
+      Carriers: {{carriersShort.length}}
+    </div>
+  </div>
+
+  <table class="table mt-5">
+    <thead>
+    <tr>
+      <th>SAP</th>
+      <th>Name</th>
+      <th>Origin</th>
+      <th>Rate</th>
+      <th>Trucks</th>
+      <th>Megas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-carrier-short [carrier]="carrier" *ngFor="let carrier of carriersShort"></tr>
+    </tbody>
+  </table>
+</div>

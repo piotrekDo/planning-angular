@@ -14,6 +14,8 @@ import { TautlinersComponent } from './tautliners/tautliners.component';
 import { TautlinerComponent } from './tautliners/tautliner/tautliner.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { DriverComponent } from './drivers/driver/driver.component';
+import { CarriersComponent } from './carriers/carriers.component';
+import { CarrierShortComponent } from './carriers/carrier-short/carrier-short.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { DriverComponent } from './drivers/driver/driver.component';
     TautlinersComponent,
     TautlinerComponent,
     DriversComponent,
-    DriverComponent
+    DriverComponent,
+    CarriersComponent,
+    CarrierShortComponent
   ],
   imports: [
     BrowserModule,
