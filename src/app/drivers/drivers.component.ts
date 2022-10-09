@@ -18,7 +18,6 @@ export class DriversComponent implements OnInit {
     this.driversService.getAllDrivers().subscribe(data => {
       this.isFetching = true;
       this.drivers = data.content;
-      console.log(this.drivers);
       this.isFetching = false;
     })
   }

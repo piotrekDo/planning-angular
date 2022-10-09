@@ -18,7 +18,6 @@ export class TautlinersComponent implements OnInit {
     this.tautlinersService.getAllTautliners().subscribe(data => {
       this.isFetching = true;
       this.tautliners = data.content;
-      console.log(this.tautliners);
       this.isFetching = false;
     });
   }

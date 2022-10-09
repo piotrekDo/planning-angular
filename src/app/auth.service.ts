@@ -36,7 +36,6 @@ export class AuthService {
     if (loadedUser.accessToken) {
       this.activeUser.next(loadedUser);
       const expirationDuration = new Date(userData._accessTokenExpireAt).getTime() - new Date().getTime();
-      console.log('after login token expire at' + expirationDuration + ', ' + userData._accessTokenExpireAt)
       this.autoLogout(expirationDuration);
     }
   }
@@ -58,19 +57,16 @@ export class AuthService {
     this.activeUser.next(null);
     this.router.navigate(['/home']);
     localStorage.removeItem('userData');
-    // if (this.tokenExpirationTimer) {
-    //   clearTimeout(this.tokenExpirationTimer);
-    // }
-    // this.tokenExpirationTimer = null;
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
   }
 
   private handleAuthentication(resdata: AuthResponseDataModel) {
     const newUser = UserModel.newUser(resdata);
     this.activeUser.next(newUser);
     let expTime =  new Date(resdata.access_token_expires_at).getTime() - new Date().getTime();
-    console.log(new Date())
-    console.log(new Date(resdata.access_token_expires_at))
-    console.log('expires in:' + expTime)
     this.autoLogout(expTime);
     localStorage.setItem('userData', JSON.stringify(newUser));
   }

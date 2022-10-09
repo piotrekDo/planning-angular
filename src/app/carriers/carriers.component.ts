@@ -17,7 +17,6 @@ export class CarriersComponent implements OnInit {
     this.carriersService.getAllCarriersShort().subscribe(data => {
       this.isFetching = true;
       this.carriersShort = data.content;
-      console.log(this.carriersShort);
       this.isFetching = false;
     })
   }

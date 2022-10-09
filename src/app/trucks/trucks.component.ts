@@ -19,7 +19,6 @@ export class TrucksComponent implements OnInit {
     this.trucksService.getAllTrucks().subscribe(data => {
       this.isFetching = true;
       this.trucks = data.content;
-      console.log(this.trucks);
       this.megas = data.content.reduce((n, e) => e.mega ? n + 1 : n, 0);
       this.isFetching = false;
     });

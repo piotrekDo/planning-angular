@@ -5,14 +5,15 @@ import {TrucksComponent} from "./trucks/trucks.component";
 import {TautlinersComponent} from "./tautliners/tautliners.component";
 import {DriversComponent} from "./drivers/drivers.component";
 import {CarriersComponent} from "./carriers/carriers.component";
+import {AuthGuardService} from "./auth-guard.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'trucks', component: TrucksComponent},
-  {path: 'tautliners', component: TautlinersComponent},
-  {path: 'truckdrivers', component: DriversComponent},
-  {path: 'carriers', component: CarriersComponent},
+  {path: 'trucks', component: TrucksComponent, canActivate: [AuthGuardService]},
+  {path: 'tautliners', component: TautlinersComponent, canActivate: [AuthGuardService]},
+  {path: 'truckdrivers', component: DriversComponent, canActivate: [AuthGuardService]},
+  {path: 'carriers', component: CarriersComponent, canActivate: [AuthGuardService]},
 ];
 
 @NgModule({

@@ -16,10 +16,6 @@ export class TruckComponent implements OnInit {
 
   ngOnInit(): void {
     this.techInspectionDatePast = this.today < new Date(this.truck.tautlinerTechInsp);
-    // console.log(this.truck.truckPlates + ' ' + this.truck.tautlinerPlates + ' ' +  this.truck.tautlinerTechInsp);
-    console.log(this.today)
-    console.log(new Date(this.truck.tautlinerTechInsp))
-    console.log('-------')
   }
 
 }

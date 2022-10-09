@@ -32,9 +32,6 @@ export class UserModel {
     let s = string.replace('[', '').replace(']', '').replace(searchRegExp, '');
     let roles = s.split(',');
     roles.forEach(role => role.replace(' ', ''));
-    console.log('admin ' + roles.indexOf('ADMIN'))
-    console.log('mod ' + roles.indexOf('MODERATOR'))
-    console.log('user ' + roles.indexOf('USER'))
     return roles;
   }
 

@@ -34,7 +34,6 @@ export class NavbarComponent implements OnInit {
     const password = form.value.password;
 
     this.authService.logIn(username, password).subscribe(resData => {
-        console.log(resData);
         this.isLoading = false;
         this.router.navigate(['/carriers']);
       }, errorMesssage => {
