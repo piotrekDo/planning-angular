@@ -16,6 +16,7 @@ import { DriversComponent } from './drivers/drivers.component';
 import { DriverComponent } from './drivers/driver/driver.component';
 import { CarriersComponent } from './carriers/carriers.component';
 import { CarrierShortComponent } from './carriers/carrier-short/carrier-short.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { CarrierShortComponent } from './carriers/carrier-short/carrier-short.co
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

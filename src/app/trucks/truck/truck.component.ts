@@ -8,14 +8,18 @@ import {TruckModel} from "../../model/truck.model";
 })
 export class TruckComponent implements OnInit {
   @Input() truck: TruckModel;
-  techInspectionDatePast;
+  techInspectionDatePast = false;
+  private today = new Date();
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.techInspectionDatePast = new Date() > this.truck.tautlinerTechInsp;
-    console.log(this.techInspectionDatePast);
+    this.techInspectionDatePast = this.today < new Date(this.truck.tautlinerTechInsp);
+    // console.log(this.truck.truckPlates + ' ' + this.truck.tautlinerPlates + ' ' +  this.truck.tautlinerTechInsp);
+    console.log(this.today)
+    console.log(new Date(this.truck.tautlinerTechInsp))
+    console.log('-------')
   }
 
 }

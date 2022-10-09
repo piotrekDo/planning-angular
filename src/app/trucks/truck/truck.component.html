@@ -4,7 +4,7 @@
 <td>
   {{truck.truckPlates}}
 </td>
-<td [ngClass]="{red : techInspectionDatePast === true}" [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
+<td [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
   <ng-container>{{truck.tautlinerPlates}}</ng-container>
 </td>
 <td>
