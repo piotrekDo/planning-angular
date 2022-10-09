@@ -10,6 +10,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { TruckComponent } from './trucks/truck/truck.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import {FilterPipe} from "./filter.pipe";
+import { TautlinersComponent } from './tautliners/tautliners.component';
+import { TautlinerComponent } from './tautliners/tautliner/tautliner.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import {FilterPipe} from "./filter.pipe";
     TrucksComponent,
     TruckComponent,
     LoadingSpinnerComponent,
-    FilterPipe
+    FilterPipe,
+    TautlinersComponent,
+    TautlinerComponent
   ],
   imports: [
     BrowserModule,

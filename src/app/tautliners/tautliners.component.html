@@ -1,0 +1,27 @@
+<div *ngIf="isFetching" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isFetching" class="container mt-5">
+  <div class="row">
+    <h3>Totals</h3>
+    <div class="col">
+      Tautliners: {{tautliners.length}}
+    </div>
+  </div>
+
+  <table class="table mt-5">
+    <thead>
+    <tr>
+      <th>Carrier</th>
+      <th>Plates</th>
+      <th>Truck</th>
+      <th>XPO</th>
+      <th>Tech inspection</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-tautliner [tautliner]="tautliner" *ngFor="let tautliner of tautliners"></tr>
+    </tbody>
+  </table>
+</div>
