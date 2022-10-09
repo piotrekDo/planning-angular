@@ -12,6 +12,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import {FilterPipe} from "./filter.pipe";
 import { TautlinersComponent } from './tautliners/tautliners.component';
 import { TautlinerComponent } from './tautliners/tautliner/tautliner.component';
+import { DriversComponent } from './drivers/drivers.component';
+import { DriverComponent } from './drivers/driver/driver.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { TautlinerComponent } from './tautliners/tautliner/tautliner.component';
     LoadingSpinnerComponent,
     FilterPipe,
     TautlinersComponent,
-    TautlinerComponent
+    TautlinerComponent,
+    DriversComponent,
+    DriverComponent
   ],
   imports: [
     BrowserModule,
