@@ -22,12 +22,11 @@ export class TrucksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.trucksService.getAllTrucks().subscribe(data => {
-      this.isFetching = true;
       this.trucks = data.content;
       this.megas = data.content.reduce((n, e) => e.mega ? n + 1 : n, 0);
       this.isFetching = false;
     });
   }
-
 }

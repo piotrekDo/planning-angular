@@ -22,6 +22,10 @@ export class TautlinersService {
       .pipe(catchError(this.handleError));
   }
 
+  deleteTautliner(plates: string) : Observable<TautlinerModel> {
+    return this.http.delete<TautlinerModel>(environment.mainUrl + `tautliners/${plates}`)
+  }
+
   private handleError(errorResponse: HttpErrorResponse) {
     console.log(errorResponse)
     let errorObject =

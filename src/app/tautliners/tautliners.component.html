@@ -5,8 +5,8 @@
 <div *ngIf="!isFetching" class="container mt-5">
   <div class="row">
     <div class="col-1"><h3>Totals</h3></div>
-    <div class="col-3">
-      <button class="btn btn-primary"
+    <div class="col-md-3">
+      <button class="btn btn-primary btn"
               data-bs-toggle="modal"
               data-bs-target="#modal"
       >Add new XPO tautliner
@@ -35,19 +35,24 @@
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <hr *ngIf="errorMessages || tautlinerAddSuccess">
-            <div *ngIf="errorMessages && errorMessages.tautlinerPlates" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div *ngIf="errorMessages && errorMessages.tautlinerPlates"
+                 class="alert alert-danger alert-dismissible fade show" role="alert">
               <p *ngFor="let err of errorMessages.tautlinerPlates"><strong>{{err}}</strong></p>
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div *ngIf="errorMessages && errorMessages.techInspection" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div *ngIf="errorMessages && errorMessages.techInspection"
+                 class="alert alert-danger alert-dismissible fade show" role="alert">
               <p *ngFor="let err of errorMessages.techInspection"><strong>{{err}}</strong></p>
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           </div>
           <div class="modal-footer">
-            <button *ngIf="!tautlinerAddSuccess" type="submit" class="btn btn-success" (click)="onNewXpoTautSubmit()">Submit</button>
-            <button *ngIf="!tautlinerAddSuccess" type="button" class="btn btn-warning" (click)="onClear()">Clear</button>
-            <button type="button" class="btn"  data-bs-dismiss="modal"
+            <button *ngIf="!tautlinerAddSuccess" type="submit" class="btn btn-success" (click)="onNewXpoTautSubmit()"
+            [disabled]="newXpoTautlinerForm.invalid" >Submit
+            </button>
+            <button *ngIf="!tautlinerAddSuccess" type="button" class="btn btn-warning" (click)="onClear()">Clear
+            </button>
+            <button type="button" class="btn" data-bs-dismiss="modal"
                     [ngClass]="{'btn-danger' : !tautlinerAddSuccess, 'btn-success' : tautlinerAddSuccess}"
                     (click)="tautlinerAddSuccess = undefined"
             >{{tautlinerAddSuccess ? 'OK' : 'Cancel'}}</button>
@@ -64,18 +69,21 @@
     </div>
   </div>
 
-  <table class="table mt-5">
-    <thead>
-    <tr>
-      <th>Carrier</th>
-      <th>Plates</th>
-      <th>Truck</th>
-      <th>XPO</th>
-      <th>Tech inspection</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr app-tautliner [tautliner]="tautliner" *ngFor="let tautliner of tautliners"></tr>
-    </tbody>
-  </table>
+  <div class="table-responsive-sm">
+    <table class="table mt-5">
+      <thead>
+      <tr>
+        <th>Carrier</th>
+        <th>Plates</th>
+        <th>Truck</th>
+        <th>XPO</th>
+        <th>Tech inspection</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr app-tautliner (tautDeleted)="getTautliners()" [tautliner]="tautliner"
+          *ngFor="let tautliner of tautliners"></tr>
+      </tbody>
+    </table>
+  </div>
 </div>

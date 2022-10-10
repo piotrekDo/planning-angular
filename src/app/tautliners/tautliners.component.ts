@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TautlinerModel} from "../model/tautliner.model";
 import {TautlinersService} from "./tautliners.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-tautliners',
@@ -25,8 +25,8 @@ export class TautlinersComponent implements OnInit {
 
   private createNewXpoTautForm(): FormGroup {
     return new FormGroup({
-      'plates': new FormControl(null),
-      'techDate': new FormControl(null)
+      'plates': new FormControl(null, Validators.required),
+      'techDate': new FormControl(null, Validators.required)
     });
   }
 
@@ -46,7 +46,8 @@ export class TautlinersComponent implements OnInit {
       }, error => {
         this.errorMessages = error;
         console.log("ERRRORRRRRRRRRRR")
-        console.log(this.errorMessages)
+        console.log(this.errorMessages);
+        this.isFetching = false;
       })
   }
 
@@ -55,9 +56,9 @@ export class TautlinersComponent implements OnInit {
     this.newXpoTautlinerForm = this.createNewXpoTautForm();
   }
 
-  private getTautliners() {
+  getTautliners() {
+    this.isFetching = true;
     this.tautlinersService.getAllTautliners().subscribe(data => {
-      this.isFetching = true;
       this.tautliners = data.content;
       this.isFetching = false;
     });

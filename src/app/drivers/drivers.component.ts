@@ -15,8 +15,8 @@ export class DriversComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.driversService.getAllDrivers().subscribe(data => {
-      this.isFetching = true;
       this.drivers = data.content;
       this.isFetching = false;
     })

@@ -42,7 +42,7 @@
             <li><a class="dropdown-item"
                    data-bs-toggle="modal"
                    data-bs-target="#modalLogout"
-                >Logout</a>
+            >Logout</a>
             </li>
           </ul>
         </li>
@@ -58,7 +58,7 @@
       <div class="modal-header d-flex justify-content-center">
         <h2>Do you wish to logout?</h2>
       </div>
-      <div class="modal-body d-flex justify-content-evenly">
+      <div class="modal-body d-sm-flex justify-content-evenly">
         <button class="btn btn-warning"  data-bs-dismiss="modal"
                 data-bs-toggle="modal"
                 data-bs-target="#modalLogout2">Yes, please</button>
@@ -74,8 +74,8 @@
       <div class="modal-header d-flex justify-content-center">
         <h2>But surly?</h2>
       </div>
-      <div class="modal-body d-flex justify-content-evenly">
-        <button class="btn btn-warning" (click)="onLogout()" data-bs-dismiss="modal">Yes!</button>
+      <div class="modal-body d-sm-flex justify-content-evenly">
+        <button class="btn btn-warning btn" (click)="onLogout()" data-bs-dismiss="modal">Yes!</button>
         <button class="btn btn-success" data-bs-dismiss="modal">No. I would rather not, actually</button>
       </div>
     </div>

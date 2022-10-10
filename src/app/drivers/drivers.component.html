@@ -9,19 +9,20 @@
       Drivers: {{drivers.length}}
     </div>
   </div>
-
-  <table class="table mt-5">
-    <thead>
-    <tr>
-      <th>Full Name</th>
-      <th>Mobile</th>
-      <th>Document id</th>
-      <th>Carrier name</th>
-      <th>Truck</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr app-driver [driver]="driver" *ngFor="let driver of drivers"></tr>
-    </tbody>
-  </table>
+  <div class="table-responsive-sm">
+    <table class="table mt-5">
+      <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Mobile</th>
+        <th>Document id</th>
+        <th>Carrier name</th>
+        <th>Truck</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr app-driver [driver]="driver" *ngFor="let driver of drivers"></tr>
+      </tbody>
+    </table>
+  </div>
 </div>

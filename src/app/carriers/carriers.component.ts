@@ -14,8 +14,8 @@ export class CarriersComponent implements OnInit {
   constructor(private carriersService: CarriersService) { }
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.carriersService.getAllCarriersShort().subscribe(data => {
-      this.isFetching = true;
       this.carriersShort = data.content;
       this.isFetching = false;
     })

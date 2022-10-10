@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="container mt-5">
+<div *ngIf="!isFetching" class="container mt-5">
   <div class="row">
     <div class="col d-flex flex-column">
       <label>Carriers:</label>
@@ -51,18 +51,19 @@
 
   </div>
   <div class="row">
-    <table class="table table-striped mt-2" style="border-radius: 20px">
-      <thead>
-      <tr>
-        <th class="text-center">Carrier</th>
-        <th class="text-center">Plates</th>
-        <th class="text-center">Tautliner</th>
-        <th class="text-center">Driver</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr app-truck style=""
-          [truck]="truck" *ngFor="let truck of trucks.slice(0)
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">Carrier</th>
+          <th class="text-center">Plates</th>
+          <th class="text-center">Tautliner</th>
+          <th class="text-center">Driver</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-truck
+            [truck]="truck" *ngFor="let truck of trucks.slice(0)
     | filter:carrierSearch: 'carrierName'
     | filter:truckSearch: 'truckPlates'
     | filter:tautlinerSearch: 'tautlinerPlates'
@@ -70,9 +71,9 @@
     | filter3Way:onlyXPO:'tautlinerIsXpo'
     | filter3Way:onlyMega:'mega'
     | sort:'carrierName': false"
-      ></tr>
-      </tbody>
-    </table>
-
+        ></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

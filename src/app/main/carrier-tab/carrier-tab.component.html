@@ -1,19 +1,17 @@
-<div class="container">
+<div class="container app-carrier-tab bg-light my-3">
   <div class="row">
-    {{carrier.name}}, {{carrier.rate}}
+    <h3 class="mt-4 mx-3" style="cursor: pointer">{{carrier.name}} {{carrier.rate | currency:'EUR'}}</h3>
   </div>
   <table class="table mt-5">
     <thead>
     <tr>
-      <th>Plates</th>
-      <th>Tautliner</th>
-      <th>Driver</th>
-      <th>Mega</th>
-      <th>XPO</th>
+      <th class="text-center">Plates</th>
+      <th class="text-center">Tautliner</th>
+      <th class="text-center">Driver</th>
     </tr>
     </thead>
     <tbody>
-    <tr app-truck [truck]="truck" *ngFor="let truck of carrier.trucks"></tr>
+    <tr app-truck [carrierMode]="true" [truck]="truck" *ngFor="let truck of carrier.trucks"></tr>
     </tbody>
   </table>
 </div>
