@@ -18,6 +18,10 @@ import { CarriersComponent } from './carriers/carriers.component';
 import { CarrierShortComponent } from './carriers/carrier-short/carrier-short.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthInterceptor} from "./auth.interceptor";
+import { MainComponent } from './main/main.component';
+import { CarrierTabComponent } from './main/carrier-tab/carrier-tab.component';
+import {SortPipe} from "./sort.pipe";
+import {ThreeWayFilterPipe} from "./three-way-filter.pipe";
 
 @NgModule({
   declarations: [
@@ -28,18 +32,23 @@ import {AuthInterceptor} from "./auth.interceptor";
     TruckComponent,
     LoadingSpinnerComponent,
     FilterPipe,
+    SortPipe,
+    ThreeWayFilterPipe,
     TautlinersComponent,
     TautlinerComponent,
     DriversComponent,
     DriverComponent,
     CarriersComponent,
-    CarrierShortComponent
+    CarrierShortComponent,
+    MainComponent,
+    CarrierTabComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ReactiveFormsModule
   ],
   providers: [

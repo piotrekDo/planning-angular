@@ -11,6 +11,12 @@ export class TrucksComponent implements OnInit {
   isFetching = false;
   trucks: TruckModel[] = [];
   megas: number;
+  carrierSearch = ''
+  truckSearch = ''
+  tautlinerSearch = ''
+  driverSearch = ''
+  onlyMega = 'all';
+  onlyXPO = 'all';
 
   constructor(private trucksService: TrucksService) {
   }

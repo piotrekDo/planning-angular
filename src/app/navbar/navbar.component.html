@@ -1,13 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-dark app-color-bg-primary app-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark app-color-bg-primary .app-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">PLANNING</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <a class="navbar-brand" href="/main">PLANNING</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item" *ngIf="!activeUser">
           <a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item" *ngIf="activeUser">
+          <a class="nav-link" routerLinkActive="active" routerLink="/main">Main View</a>
         </li>
         <li class="nav-item" *ngIf="activeUser">
           <a class="nav-link" routerLinkActive="active" routerLink="/carriers">Carriers</a>
@@ -22,42 +26,24 @@
           <a class="nav-link" routerLinkActive="active" routerLink="/truckdrivers">Truckdrivers</a>
         </li>
       </ul>
-    </div>
-    <div class="collapse navbar-collapse justify-content-end mx-5" id="navbarNav">
-      <ul class="navbar-nav mx-5" *ngIf="!activeUser">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownLogin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Login
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown" *ngIf="activeUser">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            {{activeUser.username}}
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark app-color-bg-primary p-3" aria-labelledby="navbarDarkDropdownLogin">
-              <form #form="ngForm" (ngSubmit)="onSubmit(form)" *ngIf="!isLoading">
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" id="username" class="form-control-sm" ngModel name="username" required/>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" id="password" class="form-control-sm" ngModel name="password" required/>
-                </div>
-                <div>
-                  <button [disabled]="form.invalid" class="btn btn-primary" type="submit">Log in</button>
-                </div>
-              </form>
-          </ul>
-        </li>
-      </ul>
-      <ul class="navbar-nav" *ngIf="activeUser">
-        <li class="nav-item mx-5" style="cursor: pointer;" *ngIf="activeUser">
-          <a class="nav-link" (click)="onLogout()">Logout</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            User
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark app-color-bg-primary" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu dropdown-menu-dark "
+              aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li class="mt-1">
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item"
+                   data-bs-toggle="modal"
+                   data-bs-target="#modalLogout"
+                >Logout</a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -66,3 +52,32 @@
 </nav>
 
 
+<div id="modalLogout" class="modal fade " data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center">
+        <h2>Do you wish to logout?</h2>
+      </div>
+      <div class="modal-body d-flex justify-content-evenly">
+        <button class="btn btn-warning"  data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLogout2">Yes, please</button>
+        <button class="btn btn-success" data-bs-dismiss="modal">No, it was a mistake and I apology</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalLogout2" class="modal fade " data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center">
+        <h2>But surly?</h2>
+      </div>
+      <div class="modal-body d-flex justify-content-evenly">
+        <button class="btn btn-warning" (click)="onLogout()" data-bs-dismiss="modal">Yes!</button>
+        <button class="btn btn-success" data-bs-dismiss="modal">No. I would rather not, actually</button>
+      </div>
+    </div>
+  </div>
+</div>

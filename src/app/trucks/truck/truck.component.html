@@ -1,19 +1,20 @@
 <td>
   {{truck.carrierName}}
 </td>
-<td>
+<td class="position-relative text-center">
   {{truck.truckPlates}}
+  <span *ngIf="truck.mega" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-success">
+    MEGA
+  </span>
 </td>
-<td [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
-  <ng-container>{{truck.tautlinerPlates}}</ng-container>
+<td class="position-relative text-center" [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
+  {{truck.tautlinerPlates}}
+  <span *ngIf="truck.tautlinerIsXpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+    XPO
+  </span>
 </td>
-<td>
+<td class="text-center">
   <ng-container *ngIf="truck.driverFullName">{{truck.driverFullName}}</ng-container>
   <ng-container *ngIf="truck.driverTel"> ,mob: {{truck.driverTel}}</ng-container>
 </td>
-<td>
-  {{truck.mega}}
-</td>
-<td>
-  {{truck.tautlinerIsXpo}}
-</td>
+

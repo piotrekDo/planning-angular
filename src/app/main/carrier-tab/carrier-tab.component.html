@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    {{carrier.name}}, {{carrier.rate}}
+  </div>
+  <table class="table mt-5">
+    <thead>
+    <tr>
+      <th>Plates</th>
+      <th>Tautliner</th>
+      <th>Driver</th>
+      <th>Mega</th>
+      <th>XPO</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-truck [truck]="truck" *ngFor="let truck of carrier.trucks"></tr>
+    </tbody>
+  </table>
+</div>

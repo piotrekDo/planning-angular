@@ -72,21 +72,16 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
+    console.log(errorResponse)
     let errorMessage = 'An error occurred!';
-    if (!errorResponse.error || !errorResponse.error.error) {
+    if (!errorResponse.error || !errorResponse.error.details) {
       return throwError(errorMessage);
     }
-    switch (errorResponse.error.error.message) {
-      case 'EMAIL_EXISTS' :
-        errorMessage = 'Provided e-maial address already exists.';
-        break;
-      case 'EMAIL_NOT_FOUND' :
-        errorMessage = 'This email does not exist.';
-        break;
-      case 'INVALID_PASSWORD' :
-        errorMessage = 'This password is incorrect.';
-        break;
-    }
+    const details: string = errorResponse.error.details;
+    if (details.startsWith('No user found'))
+      errorMessage = 'Please check your username'
+    if (details.startsWith('Wrong password'))
+      errorMessage = 'Please check your password'
     return throwError(errorMessage);
   }
 }

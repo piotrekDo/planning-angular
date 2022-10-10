@@ -28,7 +28,7 @@ export class UserModel {
   }
 
   private static createRoles(string: string): string[] {
-    const searchRegExp = new RegExp(" ", 'g'); // Throws SyntaxError
+    const searchRegExp = new RegExp(" ", 'g');
     let s = string.replace('[', '').replace(']', '').replace(searchRegExp, '');
     let roles = s.split(',');
     roles.forEach(role => role.replace(' ', ''));

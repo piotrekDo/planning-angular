@@ -3,10 +3,11 @@
 </video>
 <!--<section class="overlay-section"></section>-->
 
-<div class="conntainer app-carousel">
+<div *ngIf="userLogged" class="container app-carousel">
   <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
@@ -41,5 +42,31 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+  </div>
+</div>
+<div class="form-wrapper d-flex flex-column justify-content-center" style="height: 70vh; max-width: 30vw">
+  <div class="row">
+    <h3>Welcome to planning</h3>
+    <h5>Please log in</h5>
+  </div>
+  <div class="row ">
+    <form #form="ngForm" (ngSubmit)="onLogin(form)">
+      <div class="form-floating">
+        <input type="email" id="username" class="form-control"
+               placeholder="username" ngModel name="username" required/>
+        <label for="username" class="form-label">Username</label>
+      </div>
+      <div class="form-floating my-2">
+        <input type="password" id="password" class="form-control"
+               placeholder="password" ngModel name="password" required/>
+        <label for="password" class="form-label">Password</label>
+      </div>
+      <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{error}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <button [disabled]="form.invalid" class="btn btn-success" type="submit">Login</button>
+    </form>
   </div>
 </div>

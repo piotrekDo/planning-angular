@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'filter',
@@ -6,16 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(value: any, filterString: string, propname: string): any {
-    if (value.length === 0){
+  transform(value: any[], filterString: string, propname: string): any {
+    if (value.length === 0 || filterString === '') {
       return value;
     }
-    const result = [];
-    for (const element of value) {
-      if (element[propname].includes(filterString)) {
-        result.push(element);
-      }
-    }
-    return result;
+
+    if (filterString === ' ')
+      return value.filter(item => !item[propname]);
+
+    return value.filter(item => item[propname] && item[propname].toLowerCase().includes(filterString.toLowerCase()));
   }
 }
