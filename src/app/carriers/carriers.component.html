@@ -4,13 +4,76 @@
 
 <div *ngIf="!isFetching" class="container mt-5">
   <div class="row">
-    <h3>Totals</h3>
-    <div class="col">
-      Carriers: {{carriersShort.length}}
+    <div class="col-1"><h3>Totals</h3></div>
+    <div class="col-md-3">
+      <button class="btn btn-primary btn"
+              data-bs-toggle="modal"
+              data-bs-target="#newCarrierModal"
+      >Add new carrier
+      </button>
     </div>
   </div>
 
-  <table class="table mt-5">
+  <div id="newCarrierModal" class="modal fade" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add new tautliner</h2>
+        </div>
+        <div class="modal-body">
+          <form *ngIf="!newCarrierSuccess" [formGroup]="newCarrierForm">
+            <div class="form-group">
+              <label for="name">Carrier name:</label>
+              <input type="text" id="name" class="form-control" formControlName="name"
+                     [ngClass]="{'is-valid' : newCarrierForm.get('name').valid, 'is-invalid': newCarrierForm.get('name').invalid && newCarrierForm.get('name').touched}">
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please enter carrier's name</div>
+            </div>
+            <div class="form-group">
+              <label for="origin">Origin:</label>
+              <input type="text" id="origin" class="form-control" formControlName="origin"
+                     [ngClass]="{'is-valid' : newCarrierForm.get('origin').valid, 'is-invalid': newCarrierForm.get('origin').invalid && newCarrierForm.get('origin').touched}">
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please enter carrier's origin city</div>
+            </div>
+            <div class="form-group">
+              <label for="rate">Rate:</label>
+              <input type="number" id="rate" class="form-control" formControlName="rate"
+                     [ngClass]="{'is-valid' : newCarrierForm.get('rate').valid, 'is-invalid': newCarrierForm.get('rate').invalid && newCarrierForm.get('rate').touched}">
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please enter valid rate</div>
+            </div>
+            <div class="form-group">
+              <label for="sap">Sap number:</label>
+              <input type="number" id="sap" class="form-control" formControlName="sap"
+                     [ngClass]="{'is-valid' : newCarrierForm.get('sap').valid, 'is-invalid': newCarrierForm.get('sap').invalid && newCarrierForm.get('sap').dirty}">
+              <div class="valid-feedback">Looks good!</div>
+              <div *ngIf="!sapForbidden" class="invalid-feedback">Please enter valid SAP number- 6 digits</div>
+              <div *ngIf="sapForbidden" class="text-danger">SAP already used!</div>
+            </div>
+          </form>
+          <div *ngIf="newCarrierSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Tautliner was added successfully</strong>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="!newCarrierSuccess" type="submit" class="btn btn-success" (click)="onNewCarrierSubmit()"
+                  [disabled]="newCarrierForm.invalid">Submit
+          </button>
+          <button *ngIf="!newCarrierSuccess" type="button" class="btn btn-warning" (click)="onClear()">Clear
+          </button>
+          <button type="button" class="btn" data-bs-dismiss="modal"
+                  [ngClass]="{'btn-danger' : !newCarrierSuccess, 'btn-success' : newCarrierSuccess}"
+                  (click)="newCarrierSuccess = undefined"
+          >{{newCarrierSuccess ? 'OK' : 'Cancel'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 *ngIf="!isFetching && carriersShort.length === 0" class="mt-5">No Carriers to display</h3>
+
+  <table *ngIf="carriersShort.length > 0" class="table mt-5">
     <thead>
     <tr>
       <th>SAP</th>
@@ -22,7 +85,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr app-carrier-short [carrier]="carrier" *ngFor="let carrier of carriersShort"></tr>
+    <tr app-carrier-short (carrierDeleted)="loadCarriers()" [carrier]="carrier"
+        *ngFor="let carrier of carriersShort"></tr>
     </tbody>
   </table>
 </div>

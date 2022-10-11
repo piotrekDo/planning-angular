@@ -25,20 +25,17 @@ export class TautlinersComponent implements OnInit {
 
   private createNewXpoTautForm(): FormGroup {
     return new FormGroup({
-      'plates': new FormControl(null, Validators.required),
+      'plates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){3,14}')]),
       'techDate': new FormControl(null, Validators.required)
     });
   }
 
   onNewXpoTautSubmit() {
     const plates: string = this.newXpoTautlinerForm.get('plates').value;
-    const searchRegExp = new RegExp(" ", 'g');
-    let platesTrimmed = plates.replace(searchRegExp, '');
     const techDate: string = this.newXpoTautlinerForm.get('techDate').value;
-    this.tautlinersService.postNewTautliner({tautlinerPlates: platesTrimmed, techInspection: techDate, xpo: true}, 0)
+    this.tautlinersService.postNewTautliner({tautlinerPlates: plates, techInspection: techDate, xpo: true}, 0)
       .subscribe(taut => {
         this.isFetching = true;
-        console.log(taut);
         this.tautlinerAddSuccess = taut;
         this.newXpoTautlinerForm = this.createNewXpoTautForm();
         this.getTautliners();
@@ -52,7 +49,6 @@ export class TautlinersComponent implements OnInit {
   }
 
   onClear() {
-    this.createNewXpoTautForm();
     this.newXpoTautlinerForm = this.createNewXpoTautForm();
   }
 

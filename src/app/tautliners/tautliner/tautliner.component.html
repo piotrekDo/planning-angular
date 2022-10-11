@@ -16,11 +16,11 @@
       <div class="modal-header d-flex justify-content-center">
         <h2>Do you wish to delete tautliner {{tautliner.tautlinerPlates}}?</h2>
       </div>
-      <div class="modal-body d-flex justify-content-evenly">
+      <div class="modal-body d-md-flex justify-content-evenly d-sm-block">
         <button class="btn btn-warning" data-bs-dismiss="modal"
                 (click)="onTautlinerDelete()">Yes, please
         </button>
-        <button class="btn btn-success" data-bs-dismiss="modal">No, it was a mistake and I apology</button>
+        <button class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
       <div class="modal-header d-flex justify-content-center">
         <h2>Tautliner deleted</h2>
       </div>
-      <div class="modal-body d-flex justify-content-evenly">
+      <div class="modal-body d-md-flex justify-content-evenly d-sm-block">
         <button class="btn btn-success" data-bs-dismiss="modal">Yes, yes. Thank you</button>
       </div>
     </div>

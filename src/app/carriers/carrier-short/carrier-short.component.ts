@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CarrierShortModel} from "../../model/carrier-short.model";
+import {AuthService} from "../../auth.service";
+import {UserModel} from "../../model/user.model";
+import {CarriersService} from "../carriers.service";
 
 @Component({
   selector: '[app-carrier-short]',
@@ -8,10 +11,26 @@ import {CarrierShortModel} from "../../model/carrier-short.model";
 })
 export class CarrierShortComponent implements OnInit {
   @Input() carrier: CarrierShortModel;
+  activeUser: UserModel;
+  @Output('carrierDeleted') carrierDeleted = new EventEmitter<void>();
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(private authService: AuthService,
+              private carriersService: CarriersService) {
   }
 
+  ngOnInit(): void {
+    this.authService.activeUser.subscribe(user => {
+      this.activeUser = user;
+    })
+  }
+
+  onCarrierDelete() {
+    this.carriersService.deleteCarrier(this.carrier.sap).subscribe(response => {
+      this.carrier = undefined;
+      this.carrierDeleted.emit();
+    }, error => {
+      console.log(error);
+    });
+  }
 }

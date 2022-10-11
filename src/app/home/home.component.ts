@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -13,8 +13,9 @@ export class HomeComponent implements OnInit {
   userLogged = false;
   error: string = null;
 
-  constructor(private authService :AuthService,
-              private router: Router) { }
+  constructor(private authService: AuthService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.authService.activeUser.subscribe(user => {
@@ -33,14 +34,15 @@ export class HomeComponent implements OnInit {
 
     this.authService.logIn(username, password).subscribe(resData => {
         this.isLoading = false;
+        form.reset();
         this.router.navigate(['/main']);
       }, errorMesssage => {
         console.log(errorMesssage);
         this.error = errorMesssage;
         this.isLoading = false;
+        form.reset();
       }
     );
-    form.reset();
   }
 
 }
