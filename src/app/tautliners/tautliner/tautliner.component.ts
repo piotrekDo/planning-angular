@@ -11,8 +11,11 @@ import {TautlinersService} from "../tautliners.service";
 })
 export class TautlinerComponent implements OnInit {
   @Input() tautliner: TautlinerModel;
-  activeUser: UserModel;
   @Output('tautDeleted') tautlinerDeleted = new EventEmitter<void>();
+  activeUser: UserModel;
+  popupDisplay = "none";
+  techInspectionDatePast;
+
 
   constructor(private authService: AuthService,
               private tautlinerService: TautlinersService) {
@@ -20,14 +23,29 @@ export class TautlinerComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.activeUser.subscribe(user => this.activeUser = user);
+    this.techInspectionDatePast = new Date() > new Date(this.tautliner.techInspection);
   }
 
   onTautlinerDelete() {
+    this.openPopup();
+  }
+
+  openPopup() {
+    this.popupDisplay = "block";
+  }
+
+  popupConfirm() {
     this.tautlinerService.deleteTautliner(this.tautliner.tautlinerPlates).subscribe(response => {
       this.tautliner = undefined;
       this.tautlinerDeleted.emit();
+      this.popupDisplay = "none";
     }, error => {
       console.log(error);
+      this.popupDisplay = "none";
     });
+  }
+
+  popupCancel() {
+    this.popupDisplay = "none";
   }
 }

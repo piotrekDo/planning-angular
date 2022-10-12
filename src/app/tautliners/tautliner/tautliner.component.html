@@ -1,5 +1,10 @@
 <td style="cursor: pointer;" [routerLink]="['/carriers', tautliner.carrierSap]">{{tautliner.carrierName}}</td>
-<td>{{tautliner.tautlinerPlates}}</td>
+<td  class="position-relative text-center" [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+  {{tautliner.tautlinerPlates}}
+  <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+    XPO
+  </span>
+</td>
 <td>{{tautliner.truckPlates}}</td>
 <td>{{tautliner.xpo}}</td>
 <td>{{tautliner.techInspection | date: 'fullDate'}}</td>
@@ -9,3 +14,29 @@
   </button>
 </td>
 
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove tautliner {{tautliner.tautlinerPlates}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

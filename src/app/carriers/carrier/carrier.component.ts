@@ -26,6 +26,7 @@ export class CarrierComponent implements OnInit {
   addNewTautlinerForm: FormGroup;
   addNewDriverForm: FormGroup;
   formSuccess: any;
+  popupDisplay = "none";
 
   constructor(private carriersService: CarriersService,
               private tautlinersService: TautlinersService,
@@ -159,12 +160,26 @@ export class CarrierComponent implements OnInit {
   }
 
   onCarrierDelete() {
+    this.openPopup();
+  }
+
+  openPopup() {
+    this.popupDisplay = "block";
+  }
+
+  popupConfirm() {
     this.carriersService.deleteCarrier(this.carrier.sap).subscribe(response => {
       this.carrier = undefined;
-      this.router.navigate(['/main'])
+      this.popupDisplay = "none";
+      this.router.navigate(['/main']);
     }, error => {
       console.log(error);
+      this.popupDisplay = "none";
     });
+  }
+
+  popupCancel() {
+    this.popupDisplay = "none";
   }
 
   tautlinersFree(): TautlinerModel[] {

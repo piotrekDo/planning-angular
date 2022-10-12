@@ -253,7 +253,7 @@
             <input type="date" id="tech" class="form-control" formControlName="techInspection">
           </div>
           <div class="form-group">
-            <label>Mega or standard</label>
+            <label>XPO tautliner or carrier's?</label>
             <select class="form-select" formControlName="xpo"
                     [ngClass]="{'is-valid' : addNewTautlinerForm.get('xpo').valid, 'is-invalid': addNewTautlinerForm.get('xpo').invalid && addNewTautlinerForm.get('xpo').dirty}">
               <option value="false">Non Xpo</option>
@@ -326,6 +326,33 @@
                 [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
                 (click)="formSuccess = undefined"
         >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove carrier {{carrier.name}}, {{carrier.sap}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
       </div>
     </div>
   </div>

@@ -59,4 +59,5 @@ export class TautlinersComponent implements OnInit {
       this.isFetching = false;
     });
   }
+
 }
