@@ -22,6 +22,7 @@ export class CarrierComponent implements OnInit {
   activeUser: UserModel;
   editCarrierForm: FormGroup;
   addNewTruckForm: FormGroup;
+  addNewTautlinerForm: FormGroup;
   formSuccess: any;
 
   constructor(private carriersService: CarriersService,
@@ -47,6 +48,7 @@ export class CarrierComponent implements OnInit {
       this.carrier = carrier;
       this.createCarrierEditForm();
       this.createNewTruckForm();
+      this.createNewTautlinerForm();
     }, error => console.log(error));
 
     this.tautlinersService.getAllXpoTautliners().subscribe(xpoTautliners => {
@@ -68,6 +70,14 @@ export class CarrierComponent implements OnInit {
     this.addNewTruckForm = new FormGroup({
       'mega': new FormControl(null, Validators.required),
       'truckPlates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){2,14}')])
+    })
+  }
+
+  createNewTautlinerForm() {
+    this.addNewTautlinerForm = new FormGroup({
+      'tautlinerPlates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){2,14}')]),
+      'techInspection': new FormControl(null, Validators.required),
+      'xpo': new FormControl(null, Validators.required)
     })
   }
 
@@ -94,11 +104,30 @@ export class CarrierComponent implements OnInit {
       this.formSuccess = newTruck;
       this.fetchData();
       this.isLoading = false;
-    }, error => console.log(error));
+    }, error => {
+      console.log(error)
+      this.isLoading = false;
+    });
   }
 
   onClearNewTruckForm() {
     this.createNewTruckForm();
+  }
+
+  onNewTautlinerSubmit() {
+    this.tautlinersService.postNewTautliner(this.addNewTautlinerForm.value, this.carrier.sap).subscribe(newTautliner => {
+      this.isLoading = true;
+      this.formSuccess = newTautliner;
+      this.fetchData();
+      this.isLoading = false;
+    }, error => {
+      console.log(error);
+      this.isLoading = false;
+    })
+  }
+
+  onClearNewTautlinerForm() {
+    this.createNewTautlinerForm();
   }
 
   onCarrierDelete() {

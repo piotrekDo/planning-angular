@@ -3,7 +3,6 @@ import {TautlinerModel} from "../../model/tautliner.model";
 import {AuthService} from "../../auth.service";
 import {UserModel} from "../../model/user.model";
 import {TautlinersService} from "../tautliners.service";
-import { Modal } from 'bootstrap'
 
 @Component({
   selector: '[app-tautliner]',

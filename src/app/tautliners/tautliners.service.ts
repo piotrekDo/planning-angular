@@ -27,7 +27,7 @@ export class TautlinersService {
     });
   }
 
-  postNewTautliner(taut: { tautlinerPlates: string, techInspection: string, xpo: boolean }, carrier: number): Observable<TautlinerModel> {
+  postNewTautliner(taut: { tautlinerPlates: string, techInspection: string, xpo: boolean }, carrier: string): Observable<TautlinerModel> {
     return this.http.post<TautlinerModel>(environment.mainUrl + `tautliners/${carrier}`, taut)
       .pipe(catchError(this.handleError));
   }

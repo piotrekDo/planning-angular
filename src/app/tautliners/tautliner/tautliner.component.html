@@ -5,36 +5,7 @@
 <td>{{tautliner.techInspection | date: 'fullDate'}}</td>
 <td>
   <button [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#onDeleteModal"
-  >X</button>
+          (click)="onTautlinerDelete()">X
+  </button>
 </td>
 
-<div id="onDeleteModal" class="modal fade " data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
-    <div class="modal-content">
-      <div class="modal-header d-flex justify-content-center">
-        <h2>Do you wish to delete tautliner {{tautliner.tautlinerPlates}}?</h2>
-      </div>
-      <div class="modal-body d-md-flex justify-content-evenly d-sm-block">
-        <button class="btn btn-warning" data-bs-dismiss="modal"
-                (click)="onTautlinerDelete()">Yes, please
-        </button>
-        <button class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="deleteConfirmModal" class="modal fade " data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
-    <div class="modal-content">
-      <div class="modal-header d-flex justify-content-center">
-        <h2>Tautliner deleted</h2>
-      </div>
-      <div class="modal-body d-md-flex justify-content-evenly d-sm-block">
-        <button class="btn btn-success" data-bs-dismiss="modal">Yes, yes. Thank you</button>
-      </div>
-    </div>
-  </div>
-</div>

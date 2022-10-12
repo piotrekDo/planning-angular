@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TautlinerModel} from "../model/tautliner.model";
 import {TautlinersService} from "./tautliners.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -33,7 +33,7 @@ export class TautlinersComponent implements OnInit {
   onNewXpoTautSubmit() {
     const plates: string = this.newXpoTautlinerForm.get('plates').value;
     const techDate: string = this.newXpoTautlinerForm.get('techDate').value;
-    this.tautlinersService.postNewTautliner({tautlinerPlates: plates, techInspection: techDate, xpo: true}, 0)
+    this.tautlinersService.postNewTautliner({tautlinerPlates: plates, techInspection: techDate, xpo: true}, '0')
       .subscribe(taut => {
         this.isFetching = true;
         this.tautlinerAddSuccess = taut;

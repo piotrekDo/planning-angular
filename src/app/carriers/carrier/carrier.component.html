@@ -24,7 +24,10 @@
               data-bs-toggle="modal"
               data-bs-target="#newTruckModal"
           >Add new truck</li>
-          <li class="dropdown-item">Add new tautliner</li>
+          <li class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#newTautlinerModal"
+          >Add new tautliner </li>
           <li class="dropdown-item">Add new driver</li>
         </ul>
       </div>
@@ -212,6 +215,55 @@
                 [disabled]="addNewTruckForm.invalid">Submit
         </button>
         <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearNewTruckForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newTautlinerModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add new tautliner to carrier</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="addNewTautlinerForm">
+          <div class="form-group">
+            <label>Plates:</label>
+            <input type="text" class="form-control" formControlName="tautlinerPlates"
+                   [ngClass]="{'is-valid' : addNewTautlinerForm.get('tautlinerPlates').valid, 'is-invalid': addNewTautlinerForm.get('tautlinerPlates').invalid && addNewTautlinerForm.get('tautlinerPlates').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid truck plates with no special characters</div>
+          </div>
+          <div class="form-group">
+            <label for="tech">Tech inspection term:</label>
+            <input type="date" id="tech" class="form-control" formControlName="techInspection">
+          </div>
+          <div class="form-group">
+            <label>Mega or standard</label>
+            <select class="form-select" formControlName="xpo"
+                    [ngClass]="{'is-valid' : addNewTautlinerForm.get('xpo').valid, 'is-invalid': addNewTautlinerForm.get('xpo').invalid && addNewTautlinerForm.get('xpo').dirty}">
+              <option value="false">Non Xpo</option>
+              <option value="true">XPO tautliner</option>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please select</div>
+            </select>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>New tautliner was added successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onNewTautlinerSubmit()"
+                [disabled]="addNewTautlinerForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearNewTautlinerForm()">Clear
         </button>
         <button type="button" class="btn" data-bs-dismiss="modal"
                 [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
