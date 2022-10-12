@@ -32,5 +32,7 @@ export class CarriersService {
     return this.http.delete<CarrierShortModel>(environment.mainUrl + `carriers/${sap}`)
   }
 
-
+  editCarrier(carrierEdit: CarrierBasicModel, sap: string): Observable<CarrierBasicModel> {
+    return this.http.put<CarrierBasicModel>(environment.mainUrl + `carriers/${sap}`, carrierEdit);
+  }
 }

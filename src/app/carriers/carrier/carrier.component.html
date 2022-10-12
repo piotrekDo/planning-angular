@@ -5,7 +5,30 @@
 <div *ngIf="!isLoading" class="container mt-5">
   <div class="row">
     <div class="col">
-      <h3>{{carrier.sap}} {{carrier.name}} </h3></div>
+      <h3>{{carrier.sap}} {{carrier.name}} </h3>
+    </div>
+    <div class="col">
+      <div class="btn-group dropend btn-primary">
+        <button type="button" class="btn btn-secondary">
+          Actions
+        </button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropright</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#editCarrierModal"
+          >Edit carrier</li>
+          <li class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#newTruckModal"
+          >Add new truck</li>
+          <li class="dropdown-item">Add new tautliner</li>
+          <li class="dropdown-item">Add new driver</li>
+        </ul>
+      </div>
+    </div>
     <div class="row">
       <div class="col">
         {{carrier.origin}}
@@ -50,9 +73,12 @@
         </thead>
         <tbody>
         <tr *ngFor="let tautliner of tautlinersFree() ">
-          <td  class="position-relative text-center" [ngClass]="{red : techInspectionDatePast(tautliner.techInspection) }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+          <td class="position-relative text-center"
+              [ngClass]="{red : techInspectionDatePast(tautliner.techInspection) }"
+              [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
             {{tautliner.tautlinerPlates}}
-            <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+            <span *ngIf="tautliner.xpo"
+                  class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
               XPO
             </span>
           </td>
@@ -88,7 +114,110 @@
   </div>
 
   <div class="row mt-5">
-    <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger"(click)="onCarrierDelete()">Delete Carrier</button>
+    <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onCarrierDelete()">Delete
+      Carrier
+    </button>
   </div>
 </div>
 
+
+<div id="editCarrierModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit carrier</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="editCarrierForm">
+          <div class="form-group">
+            <label for="name">Carrier name:</label>
+            <input type="text" id="name" class="form-control" formControlName="name"
+                   [ngClass]="{'is-valid' : editCarrierForm.get('name').valid, 'is-invalid': editCarrierForm.get('name').invalid && editCarrierForm.get('name').touched}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter carrier's name</div>
+          </div>
+          <div class="form-group">
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" class="form-control" formControlName="origin"
+                   [ngClass]="{'is-valid' : editCarrierForm.get('origin').valid, 'is-invalid': editCarrierForm.get('origin').invalid && editCarrierForm.get('origin').touched}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter carrier's origin city</div>
+          </div>
+          <div class="form-group">
+            <label for="rate">Rate:</label>
+            <input type="number" id="rate" class="form-control" formControlName="rate"
+                   [ngClass]="{'is-valid' : editCarrierForm.get('rate').valid, 'is-invalid': editCarrierForm.get('rate').invalid && editCarrierForm.get('rate').touched}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid rate</div>
+          </div>
+          <div class="form-group">
+            <label for="sap">Sap number:</label>
+            <input type="number" id="sap" class="form-control" formControlName="sap"
+                   [ngClass]="{'is-valid' : editCarrierForm.get('sap').valid, 'is-invalid': editCarrierForm.get('sap').invalid && editCarrierForm.get('sap').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid SAP number- 6 digits</div>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Tautliner was updated successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onEditCarrierSubmit()"
+                [disabled]="editCarrierForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearEditCarrierForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newTruckModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add new truck to carrier</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="addNewTruckForm">
+          <div class="form-group">
+            <label>Plates:</label>
+            <input type="text" class="form-control" formControlName="truckPlates"
+                   [ngClass]="{'is-valid' : addNewTruckForm.get('truckPlates').valid, 'is-invalid': addNewTruckForm.get('truckPlates').invalid && addNewTruckForm.get('truckPlates').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid truck plates with no special characters</div>
+          </div>
+          <div class="form-group">
+            <label>Mega or standard</label>
+            <select class="form-select" formControlName="mega"
+                    [ngClass]="{'is-valid' : addNewTruckForm.get('mega').valid, 'is-invalid': addNewTruckForm.get('mega').invalid && addNewTruckForm.get('mega').dirty}">
+              <option value="true">Mega</option>
+              <option value="false">Standard</option>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please select</div>
+            </select>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>New truck was added successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onNewTruckSubmit()"
+                [disabled]="addNewTruckForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearNewTruckForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
