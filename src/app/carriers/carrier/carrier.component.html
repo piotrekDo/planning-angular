@@ -12,23 +12,31 @@
         <button type="button" class="btn btn-secondary">
           Actions
         </button>
-        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                aria-expanded="false">
           <span class="visually-hidden">Toggle Dropright</span>
         </button>
         <ul class="dropdown-menu">
           <li class="dropdown-item"
               data-bs-toggle="modal"
               data-bs-target="#editCarrierModal"
-          >Edit carrier</li>
+          >Edit carrier
+          </li>
           <li class="dropdown-item"
               data-bs-toggle="modal"
               data-bs-target="#newTruckModal"
-          >Add new truck</li>
+          >Add new truck
+          </li>
           <li class="dropdown-item"
               data-bs-toggle="modal"
               data-bs-target="#newTautlinerModal"
-          >Add new tautliner </li>
-          <li class="dropdown-item">Add new driver</li>
+          >Add new tautliner
+          </li>
+          <li class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#newDriverModal"
+          >Add new driver
+          </li>
         </ul>
       </div>
     </div>
@@ -264,6 +272,55 @@
                 [disabled]="addNewTautlinerForm.invalid">Submit
         </button>
         <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearNewTautlinerForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newDriverModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add new driver to carrier</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="addNewDriverForm">
+          <div class="form-group">
+            <label>Full name:</label>
+            <input type="text" class="form-control" formControlName="fullName"
+                   [ngClass]="{'is-valid' : addNewDriverForm.get('fullName').valid, 'is-invalid': addNewDriverForm.get('fullName').invalid && addNewDriverForm.get('fullName').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter drivers name</div>
+          </div>
+          <div class="form-group">
+            <label>Mobile:</label>
+            <input type="text" class="form-control" formControlName="tel"
+                   [ngClass]="{'is-valid' : addNewDriverForm.get('tel').valid, 'is-invalid': addNewDriverForm.get('tel').invalid && addNewDriverForm.get('tel').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter 9 digits, no separators</div>
+          </div>
+          <div class="form-group">
+            <label>ID document:</label>
+            <input type="text" class="form-control" formControlName="idDocument"
+                   [ngClass]="{'is-valid' : addNewDriverForm.get('idDocument').valid, 'is-invalid': addNewDriverForm.get('idDocument').invalid && addNewDriverForm.get('idDocument').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Driver's id should be 8 characters if passport, 9 if ID document, no separators</div>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>New driver was added successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onNewDriverSubmit()"
+                [disabled]="addNewDriverForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearNewDriverForm()">Clear
         </button>
         <button type="button" class="btn" data-bs-dismiss="modal"
                 [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"

@@ -9,6 +9,7 @@ import {AuthService} from "../../auth.service";
 import {UserModel} from "../../model/user.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TrucksService} from "../../trucks/trucks.service";
+import {DriversService} from "../../drivers/drivers.service";
 
 @Component({
   selector: 'app-carrier',
@@ -23,11 +24,13 @@ export class CarrierComponent implements OnInit {
   editCarrierForm: FormGroup;
   addNewTruckForm: FormGroup;
   addNewTautlinerForm: FormGroup;
+  addNewDriverForm: FormGroup;
   formSuccess: any;
 
   constructor(private carriersService: CarriersService,
               private tautlinersService: TautlinersService,
               private trucksService: TrucksService,
+              private driversService: DriversService,
               private route: ActivatedRoute,
               private router: Router,
               private authService: AuthService) {
@@ -49,6 +52,7 @@ export class CarrierComponent implements OnInit {
       this.createCarrierEditForm();
       this.createNewTruckForm();
       this.createNewTautlinerForm();
+      this.createNewDriverForm();
     }, error => console.log(error));
 
     this.tautlinersService.getAllXpoTautliners().subscribe(xpoTautliners => {
@@ -78,6 +82,14 @@ export class CarrierComponent implements OnInit {
       'tautlinerPlates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){2,14}')]),
       'techInspection': new FormControl(null, Validators.required),
       'xpo': new FormControl(null, Validators.required)
+    })
+  }
+
+  createNewDriverForm() {
+    this.addNewDriverForm = new FormGroup({
+      'fullName': new FormControl(null, [Validators.required]),
+      'tel': new FormControl(null, [Validators.required, Validators.pattern('\\d{9}')]),
+      'idDocument': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-z]{2,3}[a-zA-Z0-9]{6,7}')])
     })
   }
 
@@ -128,6 +140,22 @@ export class CarrierComponent implements OnInit {
 
   onClearNewTautlinerForm() {
     this.createNewTautlinerForm();
+  }
+
+  onNewDriverSubmit() {
+    this.driversService.postNewDriver(this.addNewDriverForm.value, this.carrier.sap).subscribe(newDriver => {
+      this.isLoading = true;
+      this.formSuccess = newDriver;
+      this.fetchData();
+      this.isLoading = false;
+    }, error => {
+      console.log(error)
+      this.isLoading = false;
+    })
+  }
+
+  onClearNewDriverForm() {
+    this.createNewDriverForm();
   }
 
   onCarrierDelete() {
