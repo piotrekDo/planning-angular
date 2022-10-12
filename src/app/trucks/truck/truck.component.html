@@ -1,5 +1,5 @@
 <ng-container (mouseenter)="copyBtn.hidden = false" (mouseleave)="copyBtn.hidden = true">
-  <td [hidden]="carrierMode">
+  <td style="cursor: pointer" [hidden]="carrierMode" [routerLink]="['/carriers', truck.carrierSap]">
     {{truck.carrierName}}
   </td>
   <td class="position-relative text-center">

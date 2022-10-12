@@ -7,6 +7,7 @@ import {DriversComponent} from "./drivers/drivers.component";
 import {CarriersComponent} from "./carriers/carriers.component";
 import {AuthGuardService} from "./auth-guard.service";
 import {MainComponent} from "./main/main.component";
+import {CarrierComponent} from "./carriers/carrier/carrier.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -16,6 +17,8 @@ const routes: Routes = [
   {path: 'tautliners', component: TautlinersComponent, canActivate: [AuthGuardService]},
   {path: 'truckdrivers', component: DriversComponent, canActivate: [AuthGuardService]},
   {path: 'carriers', component: CarriersComponent, canActivate: [AuthGuardService]},
+  {path: 'carriers/null', redirectTo: '/carriers'},
+  {path: 'carriers/:sap', component: CarrierComponent, canActivate: [AuthGuardService]},
 ];
 
 @NgModule({

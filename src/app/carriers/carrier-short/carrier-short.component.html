@@ -1,5 +1,5 @@
 <td>{{carrier.sap}}</td>
-<td>{{carrier.name}}</td>
+<td [routerLink]="['/carriers', carrier.sap]" style="cursor: pointer;">{{carrier.name}}</td>
 <td>{{carrier.origin}}</td>
 <td>{{carrier.rate}}</td>
 <td>{{carrier.trucks}}</td>

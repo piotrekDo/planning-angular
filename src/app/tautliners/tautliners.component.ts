@@ -25,7 +25,7 @@ export class TautlinersComponent implements OnInit {
 
   private createNewXpoTautForm(): FormGroup {
     return new FormGroup({
-      'plates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){3,14}')]),
+      'plates': new FormControl(null, [Validators.required, Validators.pattern('^[a-zA-Z]([a-zA-Z0-9]){2,14}')]),
       'techDate': new FormControl(null, Validators.required)
     });
   }

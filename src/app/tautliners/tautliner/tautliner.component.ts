@@ -27,8 +27,6 @@ export class TautlinerComponent implements OnInit {
     this.tautlinerService.deleteTautliner(this.tautliner.tautlinerPlates).subscribe(response => {
       this.tautliner = undefined;
       this.tautlinerDeleted.emit();
-      // let myModal = new Modal(document.getElementById('deleteConfirmModal'), {});
-      // myModal.show();
     }, error => {
       console.log(error);
     });

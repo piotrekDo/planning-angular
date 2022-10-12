@@ -1,0 +1,94 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <h3>{{carrier.sap}} {{carrier.name}} </h3></div>
+    <div class="row">
+      <div class="col">
+        {{carrier.origin}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{carrier.rate | currency:'EUR'}}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <h3>Trucks</h3>
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">Plates</th>
+          <th class="text-center">Tautliner</th>
+          <th class="text-center">Driver</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-carrier-truck [truck]="truck" *ngFor="let truck of carrier.trucks"></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 *ngIf="tautlinersFree().length === 0" class="mt-3">No free tautliners</h3>
+
+  <div *ngIf="tautlinersFree().length > 0" class="row mt-3">
+    <h3>Free tautliners</h3>
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">Plates</th>
+          <th class="text-center">Tech inspection</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let tautliner of tautlinersFree() ">
+          <td  class="position-relative text-center" [ngClass]="{red : techInspectionDatePast(tautliner.techInspection) }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+            {{tautliner.tautlinerPlates}}
+            <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+              XPO
+            </span>
+          </td>
+          <td class="text-center">{{tautliner.techInspection | date}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 *ngIf="driversFree().length === 0" class="mt-3">No free drivers</h3>
+
+  <div *ngIf="driversFree().length > 0" class="row mt-3">
+    <h3>Free drivers</h3>
+    <div class="table-responsive-sm">
+      <table class="table table-striped mt-2" style="border-radius: 20px">
+        <thead>
+        <tr>
+          <th class="text-center">Fullname</th>
+          <th class="text-center">Mobile</th>
+          <th class="text-center">ID Document</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let driver of driversFree() ">
+          <td class="text-center">{{driver.fullName}}</td>
+          <td class="text-center">{{driver.tel ? driver.tel : ''}}</td>
+          <td class="text-center">{{driver.idDocument ? driver.idDocument : ''}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger"(click)="onCarrierDelete()">Delete Carrier</button>
+  </div>
+</div>
+

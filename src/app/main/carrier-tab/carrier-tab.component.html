@@ -1,6 +1,7 @@
 <div class="container app-carrier-tab bg-light my-3">
   <div class="row">
-    <h3 class="mt-4 mx-3" style="cursor: pointer">{{carrier.name}} {{carrier.rate | currency:'EUR'}}</h3>
+    <h3 class="mt-4 mx-3" [routerLink]="['/carriers', carrier.sap]"
+        style="cursor: pointer">{{carrier.name}} {{carrier.rate | currency:'EUR'}}</h3>
   </div>
   <table class="table mt-5">
     <thead>

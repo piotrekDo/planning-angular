@@ -9,6 +9,8 @@ import {CarrierModel} from "../../model/carrier.model";
 export class CarrierTabComponent implements OnInit {
   @Input() carrier: CarrierModel;
 
+
+
   constructor() {
   }
 
