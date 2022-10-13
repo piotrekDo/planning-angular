@@ -10,6 +10,8 @@ import {AuthService} from "../../auth.service";
 export class RegisterComponent implements OnInit {
   isLoading = false;
   newUserForm: FormGroup;
+  tempNewUsername;
+  status;
 
   constructor(private authService: AuthService) {
   }
@@ -31,13 +33,15 @@ export class RegisterComponent implements OnInit {
 
   onRegisterNewUser() {
     this.isLoading = true
-    console.log(this.newUserForm.value)
     this.authService.registerNewUser(this.newUserForm.value).subscribe(newUser => {
-      console.log(newUser);
+      this.tempNewUsername = this.newUserForm.get('username').value;
+      this.status = 'ok'
       this.createNewUserForm();
       this.isLoading = false;
     }, error => {
       console.log(error);
+      this.tempNewUsername = this.newUserForm.get('username').value;
+      this.status = 'notOk'
       this.isLoading = false;
     })
   }

@@ -26,6 +26,10 @@ import { CarrierComponent } from './carriers/carrier/carrier.component';
 import {CarrierTruckComponent} from "./carriers/carrier/truck/carrier-truck.component";
 import { SettingsComponent } from './settings/settings.component';
 import { RegisterComponent } from './settings/register/register.component';
+import { UsersListComponent } from './settings/users-list/users-list.component';
+import { ChangePasswordComponent } from './settings/change-password/change-password.component';
+import { UserComponent } from './settings/users-list/user/user.component';
+import { UserDetailsComponent } from './settings/users-list/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import { RegisterComponent } from './settings/register/register.component';
     CarrierComponent,
     CarrierTruckComponent,
     SettingsComponent,
-    RegisterComponent
+    RegisterComponent,
+    UsersListComponent,
+    ChangePasswordComponent,
+    UserComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

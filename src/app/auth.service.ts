@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject, catchError, Observable, tap, throwError} from "rxjs";
 import {AuthResponseDataModel} from "./model/auth-response-data.model";
 import {UserModel} from "./model/user.model";
 import {environment} from "../environments/environment";
+import {PageModel} from "./model/page.model";
+import {UserListModel} from "./model/user-list.model";
+import * as http from "http";
 
 @Injectable({
   providedIn: 'root'
@@ -66,9 +69,31 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
+  getUsers(): Observable<PageModel<UserListModel>> {
+    return this.http.get<PageModel<UserListModel>>(environment.mainUrl + 'users');
+  }
+
+  getUser(id: number): Observable<UserListModel> {
+    return this.http.get<UserListModel>(environment.mainUrl + `users/${id}`)
+  }
+
   registerNewUser(newUser: { userEmail: string, username: string }): Observable<{ userEmail: string, username: string }> {
-    console.log(newUser)
     return this.http.post<{ userEmail: string, username: string }>(environment.mainUrl + 'users/save', newUser);
+  }
+
+  deleteUser(user: { username: string }): Observable<{ username: string }> {
+    return this.http.delete<{ username: string }>(environment.mainUrl + 'users/delete-user',
+      {
+        body: user,
+      });
+  }
+
+  addRoleToUser(role: { roleName: string, username: string }): Observable<{ roleName: string, username: string }> {
+    return this.http.post<{ roleName: string, username: string }>(environment.mainUrl + 'users/role/add-to-user', role)
+  }
+
+  removeRoleFromUser(role: { roleName: string, username: string }): Observable<{ roleName: string, username: string }> {
+    return this.http.post<{ roleName: string, username: string }>(environment.mainUrl + 'users/role/remove-from-user', role)
   }
 
   private handleAuthentication(resdata: AuthResponseDataModel) {
