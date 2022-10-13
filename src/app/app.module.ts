@@ -24,6 +24,8 @@ import {SortPipe} from "./sort.pipe";
 import {ThreeWayFilterPipe} from "./three-way-filter.pipe";
 import { CarrierComponent } from './carriers/carrier/carrier.component';
 import {CarrierTruckComponent} from "./carriers/carrier/truck/carrier-truck.component";
+import { SettingsComponent } from './settings/settings.component';
+import { RegisterComponent } from './settings/register/register.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import {CarrierTruckComponent} from "./carriers/carrier/truck/carrier-truck.comp
     MainComponent,
     CarrierTabComponent,
     CarrierComponent,
-    CarrierTruckComponent
+    CarrierTruckComponent,
+    SettingsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

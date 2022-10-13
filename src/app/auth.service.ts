@@ -4,12 +4,12 @@ import {Router} from "@angular/router";
 import {BehaviorSubject, catchError, Observable, tap, throwError} from "rxjs";
 import {AuthResponseDataModel} from "./model/auth-response-data.model";
 import {UserModel} from "./model/user.model";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private dbUrl = 'https://planning-piodom.herokuapp.com/'
   activeUser = new BehaviorSubject<UserModel>(null);
   private tokenExpirationTimer: any;
 
@@ -47,7 +47,10 @@ export class AuthService {
   }
 
   logIn(username: string, password: string): Observable<AuthResponseDataModel> {
-    return this.http.post<AuthResponseDataModel>(this.dbUrl + 'login', {username: username, userPassword: password})
+    return this.http.post<AuthResponseDataModel>(environment.mainUrl + 'login', {
+      username: username,
+      userPassword: password
+    })
       .pipe(catchError(this.handleError), tap(resdata => {
         this.handleAuthentication(resdata);
       }))
@@ -63,10 +66,15 @@ export class AuthService {
     this.tokenExpirationTimer = null;
   }
 
+  registerNewUser(newUser: { userEmail: string, username: string }): Observable<{ userEmail: string, username: string }> {
+    console.log(newUser)
+    return this.http.post<{ userEmail: string, username: string }>(environment.mainUrl + 'users/save', newUser);
+  }
+
   private handleAuthentication(resdata: AuthResponseDataModel) {
     const newUser = UserModel.newUser(resdata);
     this.activeUser.next(newUser);
-    let expTime =  new Date(resdata.access_token_expires_at).getTime() - new Date().getTime();
+    let expTime = new Date(resdata.access_token_expires_at).getTime() - new Date().getTime();
     this.autoLogout(expTime);
     localStorage.setItem('userData', JSON.stringify(newUser));
   }

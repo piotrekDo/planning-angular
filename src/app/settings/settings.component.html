@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <h3>User settings</h3>
+  </div>
+  <div class="row">
+    <div class="col-3 border " style="height: 50vh">
+      <div *ngIf="activeUser.roles.indexOf('ADMIN') > -1" class="row mb-2" style="cursor: pointer" routerLink="register">Reigister new user</div>
+      <div class="row mb-2" style="cursor: pointer">2</div>
+      <div class="row mb-2" style="cursor: pointer">3</div>
+    </div>
+    <div class="col border" style="height: 70vh">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
