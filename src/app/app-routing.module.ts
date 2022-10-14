@@ -13,12 +13,13 @@ import * as path from "path";
 import {RegisterComponent} from "./settings/register/register.component";
 import {AdminGuardService} from "./admin-guard.service";
 import {UsersListComponent} from "./settings/users-list/users-list.component";
-import {ChangePasswordComponent} from "./settings/change-password/change-password.component";
 import {UserDetailsComponent} from "./settings/users-list/user-details/user-details.component";
+import {RecoverPasswordComponent} from "./recover-password/recover-password.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
+  {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'main', component: MainComponent, canActivate: [AuthGuardService]},
   {path: 'trucks', component: TrucksComponent, canActivate: [AuthGuardService]},
   {path: 'tautliners', component: TautlinersComponent, canActivate: [AuthGuardService]},
@@ -28,12 +29,13 @@ const routes: Routes = [
   {path: 'carriers/:sap', component: CarrierComponent, canActivate: [AuthGuardService]},
   {
     path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService], children: [
-      {path: 'change-password', component: ChangePasswordComponent},
+      {path: 'change-password', component: RecoverPasswordComponent},
       {path: 'register', component: RegisterComponent, canActivate: [AdminGuardService]},
       {path: 'users-list', component: UsersListComponent, canActivate: [AdminGuardService]},
       {path: 'users-list/:id', component: UserDetailsComponent, canActivate: [AdminGuardService]},
     ]
   },
+  {path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({

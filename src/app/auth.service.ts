@@ -96,6 +96,16 @@ export class AuthService {
     return this.http.post<{ roleName: string, username: string }>(environment.mainUrl + 'users/role/remove-from-user', role)
   }
 
+  sendResetPasswordTokenRequest(request: { email: string, username: string }): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(environment.mainUrl + 'users/password-reset-request', request)
+      .pipe(catchError(this.handleError));
+  }
+
+  sendResetPasswordRequest(request: { token: string, newPassword: string, username: string }): Observable<{ username: string }> {
+    return this.http.post<{ username: string }>(environment.mainUrl + 'users/password-change', request)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleAuthentication(resdata: AuthResponseDataModel) {
     const newUser = UserModel.newUser(resdata);
     this.activeUser.next(newUser);
@@ -110,12 +120,7 @@ export class AuthService {
     if (!errorResponse.error || !errorResponse.error.details) {
       return throwError(errorMessage);
     }
-    const details: string = errorResponse.error.details;
-    if (details.startsWith('No user found'))
-      errorMessage = 'Please check your username'
-    if (details.startsWith('Wrong password'))
-      errorMessage = 'Please check your password'
-    return throwError(errorMessage);
+    return throwError(errorResponse.error.details);
   }
 }
 
