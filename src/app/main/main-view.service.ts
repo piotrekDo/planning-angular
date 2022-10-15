@@ -13,7 +13,7 @@ export class MainViewService {
   constructor(private http: HttpClient) {
   }
 
-  getAllData(): Observable<PageModel<CarrierModel>> {
+  getAllCarriers(): Observable<PageModel<CarrierModel>> {
     return this.http.get<PageModel<CarrierModel>>(environment.mainUrl + 'carriers');
   }
 }

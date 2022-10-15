@@ -1,32 +1,66 @@
-<ng-container (mouseenter)="copyBtn.hidden = false" (mouseleave)="copyBtn.hidden = true">
-  <td style="cursor: pointer" [hidden]="carrierMode" [routerLink]="['/carriers', truck.carrierSap]">
-    {{truck.carrierName}}
-  </td>
-  <td class="position-relative text-center" style="cursor: pointer" [routerLink]="['/trucks' ,truck.truckPlates]">
-    {{truck.truckPlates}}
-    <span *ngIf="truck.mega" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-success">
+<td style="cursor: pointer" [hidden]="carrierMode" [routerLink]="['/carriers', truck.carrierSap]">
+  {{truck.carrierName}}
+</td>
+<td class="position-relative text-center" style="cursor: pointer" [routerLink]="['/trucks' ,truck.truckPlates]">
+  {{truck.truckPlates}}
+  <span *ngIf="truck.mega" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-success">
     MEGA
   </span>
-  </td>
+</td>
+<ng-container *ngIf="!truckEditTriggered">
   <td *ngIf="!truck.tautlinerPlates" class="position-relative text-center">
     {{truck.tautlinerPlates}}
   </td>
-  <td *ngIf="truck.tautlinerPlates" style="cursor: pointer" [routerLink]="['/tautliners', truck.tautlinerPlates]" class="position-relative text-center" [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
+  <td *ngIf="truck.tautlinerPlates" style="cursor: pointer" [routerLink]="['/tautliners', truck.tautlinerPlates]"
+      class="position-relative text-center" [ngClass]="{red : techInspectionDatePast }"
+      [title]="'Tech inspection term: ' + (truck.tautlinerTechInsp | date)">
     {{truck.tautlinerPlates}}
-    <span *ngIf="truck.tautlinerIsXpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
+    <span *ngIf="truck.tautlinerIsXpo"
+          class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
     XPO
   </span>
   </td>
-  <td *ngIf="!truck.driverid" class="text-center">
-
-  </td>
-  <td *ngIf="truck.driverid" style="cursor: pointer" [routerLink]="['/truckdrivers', truck.driverid]" class="text-center">
+  <td *ngIf="!truck.driverid" class="text-center"></td>
+  <td *ngIf="truck.driverid" style="cursor: pointer" [routerLink]="['/truckdrivers', truck.driverid]"
+      class="text-center">
     <ng-container *ngIf="truck.driverFullName">{{truck.driverFullName}}</ng-container>
     <ng-container *ngIf="truck.driverTel"> ,mob: {{truck.driverTel}}</ng-container>
     <ng-container *ngIf="truck.driverIdDocument"> ,ID: {{truck.driverIdDocument}}</ng-container>
   </td>
-  <td >
-    <button #copyBtn class="btn btn-sm btn-primary" (click)="onCopyToClipboard()">Copy</button>
+</ng-container>
+
+<ng-container *ngIf="truckEditTriggered">
+  <td>
+    <select [(ngModel)]="selectedTautliner" style="width: 100%" class="text-center">
+      <option selected value="{{selectedTautliner ? truck.tautlinerPlates : undefined}}">{{selectedTautliner ? truck.tautlinerPlates : 'None'}}</option>
+      <optgroup label="Avalible tautliners">
+        <option *ngFor="let tautliner of tautliners" [value]="tautliner.tautlinerPlates">{{tautliner.tautlinerPlates}}</option>
+      </optgroup>
+      <optgroup label="Other XPO Tautliners">
+        <option *ngFor="let tautliner of xpoTautliners" [value]="tautliner.tautlinerPlates">{{tautliner.tautlinerPlates}}</option>
+      </optgroup>
+      <optgroup label="Clear"><option value="{{null}}">Clear</option></optgroup>
+    </select>
+  </td>
+  <td>
+    <select [(ngModel)]="selectedDriver" style="width: 100%" class="text-center">
+      <option selected value="{{selectedDriver ? truck.driverid : undefined}}">{{selectedDriver ? truck.driverFullName : 'None'}}</option>
+      <optgroup label="Avalible drivers">
+        <option *ngFor="let driver of drivers" [value]="driver.id">{{driver.fullName}}</option>
+      </optgroup>
+      <optgroup label="Clear"><option value="{{undefined}}">Clear</option></optgroup>
+    </select>
   </td>
 </ng-container>
+
+
+<td *ngIf="!carrierTabEditMode">
+  <button class="btn btn-sm btn-primary" (click)="onCopyToClipboard()">Copy</button>
+</td>
+
+<td *ngIf="carrierTabEditMode">
+  <button class="btn btn-sm" [ngClass]="truckEditTriggered ? 'btn-success' : 'btn-primary'"
+          (click)="onEditSave()" [disabled]="editDisabled">{{truckEditTriggered ? 'Save' : 'Edit'}}</button>
+  <button *ngIf="truckEditTriggered" class="btn btn-sm btn-warning" (click)="onCancelEdit()">Cancel</button>
+</td>
 
