@@ -47,7 +47,6 @@ export class CarrierComponent implements OnInit {
   async fetchData(newSap?: string) {
     this.isLoading = true;
     const sap = newSap ? newSap : this.route.snapshot.params['sap'];
-    console.log('SAP   ' + sap)
     this.carriersService.getCarrierBySap(sap).subscribe(carrier => {
       this.carrier = carrier;
       this.createCarrierEditForm();

@@ -18,7 +18,15 @@ export class DriversService {
     return this.http.get<PageModel<DriverModel>>(environment.mainUrl + 'drivers');
   }
 
+  getDriver(id: number): Observable<DriverModel> {
+    return this.http.get<DriverModel>(environment.mainUrl + `drivers/${id}`)
+  }
+
   postNewDriver(driver: DriverBasicModel, sap: string): Observable<DriverBasicModel> {
     return this.http.post<DriverBasicModel>(environment.mainUrl + `drivers/${sap}`, driver);
+  }
+
+  updateDriver(driver: DriverBasicModel, id: number): Observable<DriverBasicModel> {
+    return this.http.put<DriverBasicModel>(environment.mainUrl + `drivers/${id}`, driver);
   }
 }

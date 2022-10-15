@@ -1,0 +1,87 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="container">
+  <div class="row mt-5 mb-3">
+    <div class="col-2">
+      <div class="h3 position-relative">{{driver.fullName}}</div>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#editDriverModal"
+      >Edit
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <p>Mobile: {{driver.tel}}</p>
+  </div>
+  <div class="row">
+    <p>ID document: {{driver.idDocument}}</p>
+  </div>
+
+  <div class="row" style="cursor: pointer" [routerLink]="['/carriers', driver.carrierSap]">
+    <p>Carrier: {{driver.carrierName}}</p>
+  </div>
+
+  <div *ngIf="!driver.truckPlates" class="row">
+    <p>Truck: None</p>
+  </div>
+  <div *ngIf="driver.truckPlates" class="row" style="cursor: pointer" [routerLink]="['/trucks', driver.truckPlates]">
+    <p>Truck: {{driver.truckPlates}}</p>
+  </div>
+</div>
+
+
+
+<div id="editDriverModal" class="modal fade" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit driver</h2>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="!formSuccess" [formGroup]="editDriverForm">
+          <div class="form-group">
+            <label>Full name:</label>
+            <input type="text" class="form-control" formControlName="fullName"
+                   [ngClass]="{'is-valid' : editDriverForm.get('fullName').valid, 'is-invalid': editDriverForm.get('fullName').invalid && editDriverForm.get('fullName').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter driver's full name</div>
+          </div>
+          <div class="form-group">
+            <label>Mobile:</label>
+            <input type="text" class="form-control" formControlName="tel"
+                   [ngClass]="{'is-valid' : editDriverForm.get('tel').valid, 'is-invalid': editDriverForm.get('tel').invalid && editDriverForm.get('tel').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter driver's mobile, no separators, 9 digits</div>
+          </div>
+          <div class="form-group">
+            <label>ID document:</label>
+            <input type="text" class="form-control" formControlName="idDocument"
+                   [ngClass]="{'is-valid' : editDriverForm.get('idDocument').valid, 'is-invalid': editDriverForm.get('idDocument').invalid && editDriverForm.get('idDocument').dirty}">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter driver's ID document, no separator or special characters</div>
+          </div>
+        </form>
+        <div *ngIf="formSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Driver was updated successfully</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!formSuccess" type="submit" class="btn btn-success" (click)="onEditDriverSubmit()"
+                [disabled]="editDriverForm.invalid">Submit
+        </button>
+        <button *ngIf="!formSuccess" type="button" class="btn btn-warning" (click)="onClearEditDriverForm()">Clear
+        </button>
+        <button type="button" class="btn" data-bs-dismiss="modal"
+                [ngClass]="{'btn-danger' : !formSuccess, 'btn-success' : formSuccess}"
+                (click)="formSuccess = undefined"
+        >{{formSuccess ? 'OK' : 'Cancel'}}</button>
+      </div>
+    </div>
+  </div>
+</div>

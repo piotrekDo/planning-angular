@@ -15,6 +15,9 @@ import {AdminGuardService} from "./admin-guard.service";
 import {UsersListComponent} from "./settings/users-list/users-list.component";
 import {UserDetailsComponent} from "./settings/users-list/user-details/user-details.component";
 import {RecoverPasswordComponent} from "./recover-password/recover-password.component";
+import {TruckViewComponent} from "./trucks/truck-view/truck-view.component";
+import {TautlinerViewComponent} from "./tautliners/tautliner-view/tautliner-view.component";
+import {DriverViewComponent} from "./drivers/driver-view/driver-view.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -22,8 +25,11 @@ const routes: Routes = [
   {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'main', component: MainComponent, canActivate: [AuthGuardService]},
   {path: 'trucks', component: TrucksComponent, canActivate: [AuthGuardService]},
+  {path: 'trucks/:plates', component: TruckViewComponent, canActivate: [AuthGuardService]},
   {path: 'tautliners', component: TautlinersComponent, canActivate: [AuthGuardService]},
+  {path: 'tautliners/:plates', component: TautlinerViewComponent, canActivate: [AuthGuardService]},
   {path: 'truckdrivers', component: DriversComponent, canActivate: [AuthGuardService]},
+  {path: 'truckdrivers/:id', component: DriverViewComponent, canActivate: [AuthGuardService]},
   {path: 'carriers', component: CarriersComponent, canActivate: [AuthGuardService]},
   {path: 'carriers/null', redirectTo: '/carriers'},
   {path: 'carriers/:sap', component: CarrierComponent, canActivate: [AuthGuardService]},

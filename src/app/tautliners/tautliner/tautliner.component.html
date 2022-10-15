@@ -1,11 +1,15 @@
 <td style="cursor: pointer;" [routerLink]="['/carriers', tautliner.carrierSap]">{{tautliner.carrierName}}</td>
-<td  class="position-relative text-center" [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+<td  class="position-relative text-center" style="cursor: pointer" [routerLink]="['/tautliners', tautliner.tautlinerPlates]"
+     [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
   {{tautliner.tautlinerPlates}}
   <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
     XPO
   </span>
 </td>
-<td>{{tautliner.truckPlates}}</td>
+<td *ngIf="!tautliner.truckPlates"></td>
+<td *ngIf="tautliner.truckPlates" style="cursor: pointer" [routerLink]="['/trucks', tautliner.truckPlates]">
+  {{tautliner.truckPlates}}
+</td>
 <td>{{tautliner.xpo}}</td>
 <td>{{tautliner.techInspection | date: 'fullDate'}}</td>
 <td>

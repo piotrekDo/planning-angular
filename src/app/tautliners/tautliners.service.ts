@@ -4,6 +4,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {PageModel} from "../model/page.model";
 import {TautlinerModel} from "../model/tautliner.model";
 import {environment} from "../../environments/environment";
+import {TautlinerBasicModel} from "../model/tautliner-basic.model";
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +28,17 @@ export class TautlinersService {
     });
   }
 
+  getTautliner(plates: string): Observable<TautlinerModel> {
+    return this.http.get<TautlinerModel>(environment.mainUrl + `tautliners/${plates}`)
+  }
+
   postNewTautliner(taut: { tautlinerPlates: string, techInspection: string, xpo: boolean }, carrier: string): Observable<TautlinerModel> {
     return this.http.post<TautlinerModel>(environment.mainUrl + `tautliners/${carrier}`, taut)
       .pipe(catchError(this.handleError));
+  }
+
+  updateTautliner(tautliner: TautlinerBasicModel, plates: string): Observable<TautlinerBasicModel> {
+    return this.http.put<TautlinerBasicModel>(environment.mainUrl + `tautliners/${plates}`, tautliner);
   }
 
   deleteTautliner(plates: string): Observable<TautlinerModel> {

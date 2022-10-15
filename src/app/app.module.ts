@@ -30,6 +30,9 @@ import { UsersListComponent } from './settings/users-list/users-list.component';
 import { UserComponent } from './settings/users-list/user/user.component';
 import { UserDetailsComponent } from './settings/users-list/user-details/user-details.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
+import { TautlinerViewComponent } from './tautliners/tautliner-view/tautliner-view.component';
+import { DriverViewComponent } from './drivers/driver-view/driver-view.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { RecoverPasswordComponent } from './recover-password/recover-password.co
     UserComponent,
     UserDetailsComponent,
     RecoverPasswordComponent,
+    TruckViewComponent,
+    TautlinerViewComponent,
+    DriverViewComponent,
   ],
   imports: [
     BrowserModule,
