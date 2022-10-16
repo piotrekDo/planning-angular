@@ -39,5 +39,17 @@ truck driver and trailer from convenient drop-down list. From there a few rules 
 ## Adding new data
 
 You can add new data in their respective views. So to register new carrier, simply view the 'carriers' tab. From '
-tautliners' you can add new organization's tautliner only. If you wish to add another trailer or truck, or driver you have to do this within 
-related carrier view- from there select desired action from action list.
+tautliners' you can add new organization's tautliner only. If you wish to add another trailer or truck, or driver you
+have to do this within
+related carrier view- from there select desired action from action list. Simply because neither trucks, trailers on
+drivers should be carrier-less.
+
+## Deleting data
+
+In order to delete any record your account should have role of *MODERATOR*. Deleting records takes in relative view. You
+can also delete organizations' tautliners from 'tautliner view'.
+
+## Trucks View
+
+Might be substitute to 'main view', offers dynamic search engine. You can tam space if any search tab to see empty rows.
+For example if you wish to see which trucks doesn't have drivers simply enter space in 'Drivers' tab   
