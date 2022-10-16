@@ -25,7 +25,11 @@ export class TrucksService {
     return this.http.post<TruckModel>(environment.mainUrl + `trucks/${carrierSap}`, truck)
   }
 
-  updateTruck(truck: {mega: boolean, truckPlates: string}, plates: string): Observable<{ mega: boolean, truckPlates: string }>{
-    return this.http.put<{mega: boolean, truckPlates: string}>(environment.mainUrl + `trucks/${plates}`, truck);
+  updateTruck(truck: { mega: boolean, truckPlates: string }, plates: string): Observable<{ mega: boolean, truckPlates: string }> {
+    return this.http.put<{ mega: boolean, truckPlates: string }>(environment.mainUrl + `trucks/${plates}`, truck);
+  }
+
+  deleteTruck(plates: string): Observable<{ id: number, truckPlates: string, mega: boolean }> {
+    return this.http.delete<{ id: number, truckPlates: string, mega: boolean }>(environment.mainUrl + `trucks/${plates}`);
   }
 }

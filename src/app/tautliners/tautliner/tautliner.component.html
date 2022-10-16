@@ -13,7 +13,7 @@
 <td>{{tautliner.xpo}}</td>
 <td>{{tautliner.techInspection | date: 'fullDate'}}</td>
 <td>
-  <button [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"
+  <button *ngIf="tautliner.xpo" [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"
           (click)="onTautlinerDelete()">X
   </button>
 </td>

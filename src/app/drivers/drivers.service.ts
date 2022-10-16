@@ -29,4 +29,8 @@ export class DriversService {
   updateDriver(driver: DriverBasicModel, id: number): Observable<DriverBasicModel> {
     return this.http.put<DriverBasicModel>(environment.mainUrl + `drivers/${id}`, driver);
   }
+
+  deleteDriver(driverID: number): Observable<{ id: number, fullName: string, tel: string, idDocument: string }> {
+    return this.http.delete<{ id: number, fullName: string, tel: string, idDocument: string }>(environment.mainUrl + `drivers/${driverID}`)
+  }
 }

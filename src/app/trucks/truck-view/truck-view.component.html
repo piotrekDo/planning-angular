@@ -90,3 +90,37 @@
     </div>
   </div>
 </div>
+
+<div class="row mt-5">
+  <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onTruckDelete()">Delete
+    Truck
+  </button>
+</div>
+
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':popupDisplay}">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you wish to remove truck {{truck.truckPlates}}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="popupConfirm()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="popupCancel()">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

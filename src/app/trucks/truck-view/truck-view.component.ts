@@ -4,6 +4,8 @@ import {TrucksService} from "../trucks.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {UserModel} from "../../model/user.model";
+import {AuthService} from "../../auth.service";
 
 @Component({
   selector: 'app-truck-view',
@@ -15,22 +17,31 @@ export class TruckViewComponent implements OnInit, OnDestroy {
   truck: TruckModel;
   formSuccess: boolean = false;
   editTruckForm: FormGroup;
+  activeUser: UserModel;
+  popupDisplay = "none";
   private trucksServiceGetTruckSub: Subscription;
   private trucksServiceUpdateTruckSub: Subscription;
+  private trucksServiceDeleteTruckSub: Subscription
+  private authServiceActiveUserSub: Subscription;
 
   constructor(private trucksService: TrucksService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.fetchData();
+    this.authServiceActiveUserSub = this.authService.activeUser.subscribe(user => this.activeUser = user);
   }
 
   ngOnDestroy() {
     this.trucksServiceGetTruckSub.unsubscribe();
+    this.authServiceActiveUserSub.unsubscribe();
     if (this.trucksServiceUpdateTruckSub)
       this.trucksServiceUpdateTruckSub.unsubscribe();
+    if (this.trucksServiceDeleteTruckSub)
+      this.trucksServiceDeleteTruckSub.unsubscribe();
   }
 
   fetchData(newPlates?: string) {
@@ -68,5 +79,28 @@ export class TruckViewComponent implements OnInit, OnDestroy {
 
   onClearEditTruckForm() {
     this.createEditTruckForm();
+  }
+
+  onTruckDelete() {
+    this.openPopup();
+  }
+
+  openPopup() {
+    this.popupDisplay = "block";
+  }
+
+  popupConfirm() {
+    this.trucksServiceDeleteTruckSub = this.trucksService.deleteTruck(this.truck.truckPlates).subscribe(response => {
+      this.truck = undefined;
+      this.popupDisplay = "none";
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }, error => {
+      console.log(error);
+      this.popupDisplay = "none";
+    });
+  }
+
+  popupCancel() {
+    this.popupDisplay = "none";
   }
 }

@@ -4,6 +4,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DriversService} from "../drivers.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {UserModel} from "../../model/user.model";
+import {AuthService} from "../../auth.service";
 
 @Component({
   selector: 'app-driver-view',
@@ -15,21 +17,31 @@ export class DriverViewComponent implements OnInit, OnDestroy {
   driver: DriverModel;
   formSuccess: any;
   editDriverForm: FormGroup;
+  activeUser: UserModel;
+  popupDisplay = "none";
   private driversServiceGetDriverSub: Subscription;
   private driversServiceUpdateDriverSub: Subscription;
+  private diriverServiceDeleteDriverSub: Subscription;
+  private authServiceActiveUserSub: Subscription;
 
   constructor(private driversService: DriversService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.fetchData();
+    this.authServiceActiveUserSub = this.authService.activeUser.subscribe(user => this.activeUser = user);
   }
 
   ngOnDestroy() {
     this.driversServiceGetDriverSub.unsubscribe();
+    this.authServiceActiveUserSub.unsubscribe();
     if (this.driversServiceUpdateDriverSub)
       this.driversServiceUpdateDriverSub.unsubscribe();
+    if (this.diriverServiceDeleteDriverSub)
+      this.diriverServiceDeleteDriverSub.unsubscribe();
   }
 
   createEditDriverForm() {
@@ -63,5 +75,28 @@ export class DriverViewComponent implements OnInit, OnDestroy {
       console.log(error);
       this.isLoading = false;
     })
+  }
+
+  onDriverDelete() {
+    this.openPopup();
+  }
+
+  openPopup() {
+    this.popupDisplay = "block";
+  }
+
+  popupConfirm() {
+    this.diriverServiceDeleteDriverSub = this.driversService.deleteDriver(this.driver.id).subscribe(response => {
+      this.driver = undefined;
+      this.popupDisplay = "none";
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }, error => {
+      console.log(error);
+      this.popupDisplay = "none";
+    });
+  }
+
+  popupCancel() {
+    this.popupDisplay = "none";
   }
 }

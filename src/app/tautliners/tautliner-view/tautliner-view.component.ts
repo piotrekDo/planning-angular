@@ -4,6 +4,8 @@ import {TautlinersService} from "../tautliners.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {UserModel} from "../../model/user.model";
+import {AuthService} from "../../auth.service";
 
 @Component({
   selector: 'app-tautliner-view',
@@ -15,20 +17,29 @@ export class TautlinerViewComponent implements OnInit, OnDestroy {
   tautliner: TautlinerModel;
   editTautlinerForm: FormGroup;
   formSuccess: boolean = false;
+  popupDisplay = "none";
   private tautlinerServiceUpdateTautlinerSub: Subscription;
   private tautlinerServiceGetTautlinerSub: Subscription;
+  private tautlinerServiceDeleteTautlinerSub: Subscription;
+  private authServiceActiveUserSub: Subscription;
+  activeUser: UserModel;
 
   constructor(private tautlinersService: TautlinersService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.fetchData();
+    this.authServiceActiveUserSub = this.authService.activeUser.subscribe(user => this.activeUser = user);
   }
 
   ngOnDestroy() {
     this.tautlinerServiceGetTautlinerSub.unsubscribe();
+    this.authServiceActiveUserSub.unsubscribe();
+    if (this.tautlinerServiceDeleteTautlinerSub)
+      this.tautlinerServiceDeleteTautlinerSub.unsubscribe();
     if (this.tautlinerServiceUpdateTautlinerSub)
       this.tautlinerServiceUpdateTautlinerSub.unsubscribe();
   }
@@ -67,5 +78,28 @@ export class TautlinerViewComponent implements OnInit, OnDestroy {
         console.log(error);
         this.isLoading = false;
       })
+  }
+
+  onTautlinerDelete() {
+    this.openPopup();
+  }
+
+  openPopup() {
+    this.popupDisplay = "block";
+  }
+
+  popupConfirm() {
+    this.tautlinerServiceDeleteTautlinerSub = this.tautlinersService.deleteTautliner(this.tautliner.tautlinerPlates).subscribe(response => {
+      this.tautliner = undefined;
+      this.popupDisplay = "none";
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }, error => {
+      console.log(error);
+      this.popupDisplay = "none";
+    });
+  }
+
+  popupCancel() {
+    this.popupDisplay = "none";
   }
 }
