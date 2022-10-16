@@ -4,15 +4,14 @@
 
 <div class="container">
   <div class="row mt-5 mb-3">
-    <div class="col-2">
-      <div class="h3 position-relative">{{truck.truckPlates}}
-        <span *ngIf="truck.mega" style="font-size: .8rem; opacity: .75;"
-              class="position-absolute top-0 translate-middle badge rounded-pill bg-success">
-    MEGA
-  </span>
-      </div>
+    <div class="col-auto" style="padding-right: 0">
+      <div class="h3 position-relative">{{truck.truckPlates}}</div>
     </div>
-    <div class="col">
+    <div class="col-auto" style="padding-left: 0">
+      <span style="font-size: .7rem" class="badge badge-pill bg-success">MEGA</span>
+    </div>
+
+    <div class="col-auto">
       <button class="btn btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#editTruckModal"
@@ -24,17 +23,17 @@
     <p>Carrier: {{truck.carrierName}}</p>
   </div>
 
-<div *ngIf="truck.tautlinerPlates" class="row">
-  <div class="col-2" style="cursor: pointer"
-       [routerLink]="['/tautliners', truck.tautlinerPlates]">
-    <p class="position-relative">Tautliner: {{truck.tautlinerPlates}}
-      <span *ngIf="truck.tautlinerIsXpo" style="opacity: .75" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-    XPO
-  </span></p>
+  <div *ngIf="truck.tautlinerPlates" class="row">
+    <div class="col-auto" style="cursor: pointer;padding-right: 0"
+         [routerLink]="['/tautliners', truck.tautlinerPlates]">
+      <p class="position-relative">Tautliner: {{truck.tautlinerPlates}}</p>
+    </div>
+    <div class="col-auto" style="padding-left: 0">
+      <span class="badge badge-pill bg-danger">XPO</span>
+    </div>
   </div>
-</div>
   <div *ngIf="!truck.tautlinerPlates" class="row">
-    <p>Tautliner: None</p>
+    <div class="col-auto"><p>Tautliner: None</p></div>
   </div>
 
   <div *ngIf="truck.driverid" class="row" style="cursor: pointer" [routerLink]="['/truckdrivers', truck.driverid]">
