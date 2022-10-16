@@ -1,26 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DriverModel} from "../../model/driver.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DriversService} from "../drivers.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-driver-view',
   templateUrl: './driver-view.component.html',
   styleUrls: ['./driver-view.component.scss']
 })
-export class DriverViewComponent implements OnInit {
+export class DriverViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   driver: DriverModel;
   formSuccess: any;
   editDriverForm: FormGroup;
+  private driversServiceGetDriverSub: Subscription;
+  private driversServiceUpdateDriverSub: Subscription;
 
   constructor(private driversService: DriversService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.fetchData();
+  }
+
+  ngOnDestroy() {
+    this.driversServiceGetDriverSub.unsubscribe();
+    if (this.driversServiceUpdateDriverSub)
+      this.driversServiceUpdateDriverSub.unsubscribe();
   }
 
   createEditDriverForm() {
@@ -32,7 +41,7 @@ export class DriverViewComponent implements OnInit {
   }
 
   fetchData() {
-    this.driversService.getDriver(this.route.snapshot.params['id']).subscribe(driver => {
+    this.driversServiceGetDriverSub = this.driversService.getDriver(this.route.snapshot.params['id']).subscribe(driver => {
       this.isLoading = true
       this.driver = driver;
       this.createEditDriverForm();
@@ -46,7 +55,7 @@ export class DriverViewComponent implements OnInit {
 
   onEditDriverSubmit() {
     this.isLoading = true;
-    this.driversService.updateDriver(this.editDriverForm.value, this.driver.id).subscribe(driver => {
+    this.driversServiceUpdateDriverSub = this.driversService.updateDriver(this.editDriverForm.value, this.driver.id).subscribe(driver => {
       this.fetchData();
       this.isLoading = false;
       this.formSuccess = true;

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "/dist/planning-angular",
+    "public": "dist/planning-angular",
     "ignore": [
       "firebase.json",
       "**/.*",

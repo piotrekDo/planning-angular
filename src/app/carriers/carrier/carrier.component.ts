@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CarrierModel} from "../../model/carrier.model";
 import {TautlinerModel} from "../../model/tautliner.model";
 import {CarriersService} from "../carriers.service";
@@ -10,13 +10,14 @@ import {UserModel} from "../../model/user.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TrucksService} from "../../trucks/trucks.service";
 import {DriversService} from "../../drivers/drivers.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-carrier',
   templateUrl: './carrier.component.html',
   styleUrls: ['./carrier.component.scss']
 })
-export class CarrierComponent implements OnInit {
+export class CarrierComponent implements OnInit, OnDestroy {
   isLoading = false;
   carrier: CarrierModel;
   xpoTaut: TautlinerModel[];
@@ -27,6 +28,14 @@ export class CarrierComponent implements OnInit {
   addNewDriverForm: FormGroup;
   formSuccess: any;
   popupDisplay = "none";
+  private authServiceActiveUserSubscription: Subscription;
+  private carrierServiceGetCarrierBySapSubscription: Subscription;
+  private carrierServiceEditCarrierSubscription: Subscription;
+  private carrierServiceDeleteCarrierSubscription: Subscription;
+  private taurlinerServiceGetAllXpoTautSubscription: Subscription;
+  private tautlinerServicePostNewTautlinerSubscription: Subscription;
+  private truckServicePostNewTruckSubscription: Subscription;
+  private driversServicePostNewDriverSubscription: Subscription;
 
   constructor(private carriersService: CarriersService,
               private tautlinersService: TautlinersService,
@@ -39,15 +48,31 @@ export class CarrierComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData();
-    this.authService.activeUser.subscribe(user => {
+    this.authServiceActiveUserSubscription = this.authService.activeUser.subscribe(user => {
       this.activeUser = user;
     })
+  }
+
+  ngOnDestroy() {
+    this.authServiceActiveUserSubscription.unsubscribe();
+    this.carrierServiceGetCarrierBySapSubscription.unsubscribe();
+    this.taurlinerServiceGetAllXpoTautSubscription.unsubscribe();
+    if (this.carrierServiceEditCarrierSubscription)
+      this.carrierServiceEditCarrierSubscription.unsubscribe();
+    if (this.carrierServiceDeleteCarrierSubscription)
+      this.carrierServiceDeleteCarrierSubscription.unsubscribe();
+    if (this.truckServicePostNewTruckSubscription)
+      this.truckServicePostNewTruckSubscription.unsubscribe();
+    if (this.tautlinerServicePostNewTautlinerSubscription)
+      this.tautlinerServicePostNewTautlinerSubscription.unsubscribe();
+    if (this.driversServicePostNewDriverSubscription)
+      this.driversServicePostNewDriverSubscription.unsubscribe();
   }
 
   async fetchData(newSap?: string) {
     this.isLoading = true;
     const sap = newSap ? newSap : this.route.snapshot.params['sap'];
-    this.carriersService.getCarrierBySap(sap).subscribe(carrier => {
+    this.carrierServiceGetCarrierBySapSubscription = this.carriersService.getCarrierBySap(sap).subscribe(carrier => {
       this.carrier = carrier;
       this.createCarrierEditForm();
       this.createNewTruckForm();
@@ -55,7 +80,7 @@ export class CarrierComponent implements OnInit {
       this.createNewDriverForm();
     }, error => console.log(error));
 
-    this.tautlinersService.getAllXpoTautliners().subscribe(xpoTautliners => {
+    this.taurlinerServiceGetAllXpoTautSubscription = this.tautlinersService.getAllXpoTautliners().subscribe(xpoTautliners => {
       this.xpoTaut = xpoTautliners.content;
     }, error => console.log(error));
     this.isLoading = false;
@@ -94,7 +119,7 @@ export class CarrierComponent implements OnInit {
   }
 
   onEditCarrierSubmit() {
-    this.carriersService.editCarrier(this.editCarrierForm.value, this.carrier.sap).subscribe(editedCarrier => {
+    this.carrierServiceEditCarrierSubscription = this.carriersService.editCarrier(this.editCarrierForm.value, this.carrier.sap).subscribe(editedCarrier => {
       this.isLoading = true;
       this.formSuccess = editedCarrier;
       this.router.navigate(['/carriers', this.editCarrierForm.get('sap').value])
@@ -111,7 +136,7 @@ export class CarrierComponent implements OnInit {
   }
 
   onNewTruckSubmit() {
-    this.trucksService.postNewTruck(this.addNewTruckForm.value, this.carrier.sap).subscribe(newTruck => {
+    this.truckServicePostNewTruckSubscription = this.trucksService.postNewTruck(this.addNewTruckForm.value, this.carrier.sap).subscribe(newTruck => {
       this.isLoading = true;
       this.formSuccess = newTruck;
       this.fetchData();
@@ -127,7 +152,7 @@ export class CarrierComponent implements OnInit {
   }
 
   onNewTautlinerSubmit() {
-    this.tautlinersService.postNewTautliner(this.addNewTautlinerForm.value, this.carrier.sap).subscribe(newTautliner => {
+    this.tautlinerServicePostNewTautlinerSubscription = this.tautlinersService.postNewTautliner(this.addNewTautlinerForm.value, this.carrier.sap).subscribe(newTautliner => {
       this.isLoading = true;
       this.formSuccess = newTautliner;
       this.fetchData();
@@ -143,7 +168,7 @@ export class CarrierComponent implements OnInit {
   }
 
   onNewDriverSubmit() {
-    this.driversService.postNewDriver(this.addNewDriverForm.value, this.carrier.sap).subscribe(newDriver => {
+    this.driversServicePostNewDriverSubscription = this.driversService.postNewDriver(this.addNewDriverForm.value, this.carrier.sap).subscribe(newDriver => {
       this.isLoading = true;
       this.formSuccess = newDriver;
       this.fetchData();
@@ -167,7 +192,7 @@ export class CarrierComponent implements OnInit {
   }
 
   popupConfirm() {
-    this.carriersService.deleteCarrier(this.carrier.sap).subscribe(response => {
+    this.carrierServiceDeleteCarrierSubscription = this.carriersService.deleteCarrier(this.carrier.sap).subscribe(response => {
       this.carrier = undefined;
       this.popupDisplay = "none";
       this.router.navigate(['/main']);

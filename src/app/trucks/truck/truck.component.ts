@@ -58,7 +58,8 @@ export class TruckComponent implements OnInit, OnDestroy {
     this.activeUserSubscription.unsubscribe();
     if (this.editModeSubscription)
       this.editModeSubscription.unsubscribe();
-    this.disableButtonsSubscription.unsubscribe();
+    if (this.disableButtonsSubscription)
+      this.disableButtonsSubscription.unsubscribe();
   }
 
   onCopyToClipboard() {
@@ -78,7 +79,6 @@ ${this.truck.driverIdDocument ? 'id:' + this.truck.driverIdDocument : ''}`
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    console.log(selBox.value);
   }
 
   onEditSave() {
@@ -91,7 +91,6 @@ ${this.truck.driverIdDocument ? 'id:' + this.truck.driverIdDocument : ''}`
           truck: this.truck.truckPlates,
           driver: this.selectedDriver
         }).subscribe(couple => {
-          console.log(couple);
           this.isLoading = false;
           this.dataChanged.emit();
         }, error => {
@@ -105,7 +104,6 @@ ${this.truck.driverIdDocument ? 'id:' + this.truck.driverIdDocument : ''}`
           truck: this.truck.truckPlates,
           tautliner: this.selectedTautliner
         }).subscribe(couple => {
-          console.log(couple);
           this.isLoading = false;
           this.dataChanged.emit();
         }, error => {

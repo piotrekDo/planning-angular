@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TruckModel} from "../../model/truck.model";
 import {TrucksService} from "../trucks.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-truck-view',
   templateUrl: './truck-view.component.html',
   styleUrls: ['./truck-view.component.scss']
 })
-export class TruckViewComponent implements OnInit {
+export class TruckViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   truck: TruckModel;
   formSuccess: boolean = false;
   editTruckForm: FormGroup;
+  private trucksServiceGetTruckSub: Subscription;
+  private trucksServiceUpdateTruckSub: Subscription;
 
   constructor(private trucksService: TrucksService,
               private route: ActivatedRoute,
@@ -24,9 +27,15 @@ export class TruckViewComponent implements OnInit {
     this.fetchData();
   }
 
+  ngOnDestroy() {
+    this.trucksServiceGetTruckSub.unsubscribe();
+    if (this.trucksServiceUpdateTruckSub)
+      this.trucksServiceUpdateTruckSub.unsubscribe();
+  }
+
   fetchData(newPlates?: string) {
     const plates = newPlates ? newPlates : this.route.snapshot.params['plates'];
-    this.trucksService.getTruck(plates).subscribe(truck => {
+    this.trucksServiceGetTruckSub = this.trucksService.getTruck(plates).subscribe(truck => {
       this.isLoading = true;
       this.truck = truck;
       this.isLoading = false;
@@ -46,7 +55,7 @@ export class TruckViewComponent implements OnInit {
 
   onEditTruckSubmit() {
     this.isLoading = true;
-    this.trucksService.updateTruck(this.editTruckForm.value, this.truck.truckPlates).subscribe(truck => {
+    this.trucksServiceUpdateTruckSub = this.trucksService.updateTruck(this.editTruckForm.value, this.truck.truckPlates).subscribe(truck => {
       this.router.navigate(['/trucks', this.editTruckForm.get('truckPlates').value])
       this.fetchData(this.editTruckForm.get('truckPlates').value);
       this.isLoading = false;

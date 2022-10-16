@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TautlinerModel} from "../model/tautliner.model";
 import {TautlinersService} from "./tautliners.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-tautliners',
   templateUrl: './tautliners.component.html',
   styleUrls: ['./tautliners.component.scss']
 })
-export class TautlinersComponent implements OnInit {
+export class TautlinersComponent implements OnInit, OnDestroy {
   newXpoTautlinerForm: FormGroup;
   isFetching = false;
   tautliners: TautlinerModel[] = [];
   tautlinerAddSuccess: TautlinerModel;
   errorMessages: { tautlinerPlates: [], techInspection: [] };
+  private tautServiceGetAllTautSub: Subscription;
+  private tautServicePostNewTruckSub: Subscription;
 
   constructor(private tautlinersService: TautlinersService) {
   }
@@ -21,6 +24,12 @@ export class TautlinersComponent implements OnInit {
   ngOnInit(): void {
     this.newXpoTautlinerForm = this.createNewXpoTautForm();
     this.getTautliners();
+  }
+
+  ngOnDestroy() {
+    this.tautServiceGetAllTautSub.unsubscribe();
+    if (this.tautServicePostNewTruckSub)
+      this.tautServicePostNewTruckSub.unsubscribe();
   }
 
   private createNewXpoTautForm(): FormGroup {
@@ -33,7 +42,11 @@ export class TautlinersComponent implements OnInit {
   onNewXpoTautSubmit() {
     const plates: string = this.newXpoTautlinerForm.get('plates').value;
     const techDate: string = this.newXpoTautlinerForm.get('techDate').value;
-    this.tautlinersService.postNewTautliner({tautlinerPlates: plates, techInspection: techDate, xpo: true}, '0')
+    this.tautServicePostNewTruckSub = this.tautlinersService.postNewTautliner({
+      tautlinerPlates: plates,
+      techInspection: techDate,
+      xpo: true
+    }, '0')
       .subscribe(taut => {
         this.isFetching = true;
         this.tautlinerAddSuccess = taut;
@@ -42,7 +55,6 @@ export class TautlinersComponent implements OnInit {
         this.isFetching = false;
       }, error => {
         this.errorMessages = error;
-        console.log("ERRRORRRRRRRRRRR")
         console.log(this.errorMessages);
         this.isFetching = false;
       })
@@ -54,7 +66,7 @@ export class TautlinersComponent implements OnInit {
 
   getTautliners() {
     this.isFetching = true;
-    this.tautlinersService.getAllTautliners().subscribe(data => {
+    this.tautServiceGetAllTautSub = this.tautlinersService.getAllTautliners().subscribe(data => {
       this.tautliners = data.content;
       this.isFetching = false;
     });

@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
   styleUrls: ['./recover-password.component.scss']
 })
-export class RecoverPasswordComponent implements OnInit {
+export class RecoverPasswordComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   requestTokenForm: FormGroup;
   resetPasswordForm: FormGroup;
   requestState: boolean = true;
   passwordChanged = false;
   error: string = null;
+  private authServiceTokenRequestSub: Subscription;
+  private authServicePassResetRequestSub: Subscription;
 
   constructor(private authService: AuthService) {
   }
@@ -21,6 +24,13 @@ export class RecoverPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.createPasswordResetRequestForm();
     this.createResetPasswordForm();
+  }
+
+  ngOnDestroy() {
+    if (this.authServiceTokenRequestSub)
+      this.authServiceTokenRequestSub.unsubscribe();
+    if (this.authServicePassResetRequestSub)
+      this.authServicePassResetRequestSub.unsubscribe();
   }
 
   createPasswordResetRequestForm() {
@@ -40,7 +50,7 @@ export class RecoverPasswordComponent implements OnInit {
 
   onTokenSendRequest() {
     this.isLoading = true;
-    this.authService.sendResetPasswordTokenRequest(this.requestTokenForm.value).subscribe(resetToken => {
+    this.authServiceTokenRequestSub = this.authService.sendResetPasswordTokenRequest(this.requestTokenForm.value).subscribe(resetToken => {
       this.isLoading = false;
       this.requestState = false;
       this.error = undefined;
@@ -55,7 +65,7 @@ export class RecoverPasswordComponent implements OnInit {
 
   onChangePasswordRequest() {
     this.isLoading = true;
-    this.authService.sendResetPasswordRequest(this.resetPasswordForm.value).subscribe(username => {
+    this.authServicePassResetRequestSub = this.authService.sendResetPasswordRequest(this.resetPasswordForm.value).subscribe(username => {
       this.isLoading = false;
       this.passwordChanged = true;
       this.error = undefined;

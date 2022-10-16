@@ -1,20 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {TautlinerModel} from "../../model/tautliner.model";
 import {AuthService} from "../../auth.service";
 import {UserModel} from "../../model/user.model";
 import {TautlinersService} from "../tautliners.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: '[app-tautliner]',
   templateUrl: './tautliner.component.html',
   styleUrls: ['./tautliner.component.scss']
 })
-export class TautlinerComponent implements OnInit {
+export class TautlinerComponent implements OnInit, OnDestroy {
   @Input() tautliner: TautlinerModel;
   @Output('tautDeleted') tautlinerDeleted = new EventEmitter<void>();
   activeUser: UserModel;
   popupDisplay = "none";
   techInspectionDatePast;
+  private authServiceActiveUserSub: Subscription;
+  private tautlinerServiceDeleteTautSub: Subscription;
 
 
   constructor(private authService: AuthService,
@@ -22,8 +25,14 @@ export class TautlinerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.activeUser.subscribe(user => this.activeUser = user);
+    this.authServiceActiveUserSub = this.authService.activeUser.subscribe(user => this.activeUser = user);
     this.techInspectionDatePast = new Date() > new Date(this.tautliner.techInspection);
+  }
+
+  ngOnDestroy() {
+    this.authServiceActiveUserSub.unsubscribe();
+    if (this.tautlinerServiceDeleteTautSub)
+      this.tautlinerServiceDeleteTautSub.unsubscribe();
   }
 
   onTautlinerDelete() {
@@ -35,7 +44,7 @@ export class TautlinerComponent implements OnInit {
   }
 
   popupConfirm() {
-    this.tautlinerService.deleteTautliner(this.tautliner.tautlinerPlates).subscribe(response => {
+    this.tautlinerServiceDeleteTautSub = this.tautlinerService.deleteTautliner(this.tautliner.tautlinerPlates).subscribe(response => {
       this.tautliner = undefined;
       this.tautlinerDeleted.emit();
       this.popupDisplay = "none";

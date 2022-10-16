@@ -1,22 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CarriersService} from "./carriers.service";
 import {CarrierShortModel} from "../model/carrier-short.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CarrierModel} from "../model/carrier.model";
 import {CarrierBasicModel} from "../model/carrier-basic.model";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-carriers',
   templateUrl: './carriers.component.html',
   styleUrls: ['./carriers.component.scss']
 })
-export class CarriersComponent implements OnInit {
+export class CarriersComponent implements OnInit, OnDestroy {
   isFetching = false;
   carriersShort: CarrierShortModel[] = []
   newCarrierForm: FormGroup;
   newCarrierSuccess: CarrierBasicModel;
   sapForbidden;
+  private carriersServicePostNewSub: Subscription;
+  private carriersServiceGetcarriersSub: Subscription;
+  private carriersServiceGetBySapSub: Subscription;
+
 
   constructor(private carriersService: CarriersService) {
   }
@@ -30,8 +33,17 @@ export class CarriersComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    if (this.carriersServicePostNewSub)
+      this.carriersServicePostNewSub.unsubscribe();
+    if (this.carriersServiceGetBySapSub)
+      this.carriersServiceGetBySapSub.unsubscribe();
+    this.carriersServiceGetcarriersSub.unsubscribe();
+  }
+
+
   onNewCarrierSubmit() {
-    this.carriersService.postNewCarrier(this.newCarrierForm.value).subscribe(newCarrier => {
+    this.carriersServicePostNewSub = this.carriersService.postNewCarrier(this.newCarrierForm.value).subscribe(newCarrier => {
       this.isFetching = true;
       this.newCarrierSuccess = newCarrier;
       this.createNewForm();
@@ -59,7 +71,7 @@ export class CarriersComponent implements OnInit {
 
   loadCarriers() {
     this.isFetching = true;
-    this.carriersService.getAllCarriersShort().subscribe(data => {
+    this.carriersServiceGetcarriersSub = this.carriersService.getAllCarriersShort().subscribe(data => {
       this.carriersShort = data.content;
       this.isFetching = false;
     }, error => {
@@ -70,7 +82,7 @@ export class CarriersComponent implements OnInit {
 
   forbiddenSap(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
-      this.carriersService.getCarrierBySap(control.value).subscribe(carrier => {
+      this.carriersServiceGetBySapSub = this.carriersService.getCarrierBySap(control.value).subscribe(carrier => {
         console.log(carrier)
         this.sapForbidden = true;
         resolve({'sapForbidden': true});

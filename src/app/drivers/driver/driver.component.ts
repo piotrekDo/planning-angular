@@ -9,7 +9,8 @@ import {DriverModel} from "../../model/driver.model";
 export class DriverComponent implements OnInit {
   @Input() driver: DriverModel;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

@@ -1,21 +1,27 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserListModel} from "../../../model/user-list.model";
 import {AuthService} from "../../../auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserModel} from "../../../model/user.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnDestroy {
   popupDisplay = "none";
   isloading = false
   user: UserListModel;
   activeUser: UserModel;
   @ViewChild('modSwitch') modSwitch;
   @ViewChild('adminCheck') adminCheck;
+  private authServiceActiveUsersSub: Subscription;
+  private authServiceGetUserSub: Subscription;
+  private authServiceDeleteUserSub: Subscription;
+  private authServiceAddRoleSub: Subscription;
+  private authServiceRemoveRoleSub: Subscription;
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
@@ -24,12 +30,23 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaduser();
-    this.authService.activeUser.subscribe(activeUser => this.activeUser = activeUser);
+    this.authServiceActiveUsersSub = this.authService.activeUser.subscribe(activeUser => this.activeUser = activeUser);
+  }
+
+  ngOnDestroy() {
+    this.authServiceActiveUsersSub.unsubscribe();
+    this.authServiceGetUserSub.unsubscribe();
+    if (this.authServiceDeleteUserSub)
+      this.authServiceDeleteUserSub.unsubscribe();
+    if (this.authServiceAddRoleSub)
+      this.authServiceAddRoleSub.unsubscribe();
+    if (this.authServiceRemoveRoleSub)
+      this.authServiceRemoveRoleSub.unsubscribe();
   }
 
   loaduser() {
     this.isloading = true;
-    this.authService.getUser(this.route.snapshot.params['id']).subscribe(user => {
+    this.authServiceGetUserSub = this.authService.getUser(this.route.snapshot.params['id']).subscribe(user => {
       this.user = user;
       this.isloading = false;
     })
@@ -48,7 +65,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   popupConfirm() {
-    this.authService.deleteUser({username: this.user.username}).subscribe(response => {
+    this.authServiceDeleteUserSub = this.authService.deleteUser({username: this.user.username}).subscribe(response => {
       this.user = undefined;
       this.popupDisplay = "none";
       this.router.navigate(['../'], {relativeTo: this.route})
@@ -76,7 +93,10 @@ export class UserDetailsComponent implements OnInit {
 
   private callAddRole(role: string) {
     this.isloading = true;
-    this.authService.addRoleToUser({roleName: role, username: this.user.username}).subscribe(suerRole => {
+    this.authServiceAddRoleSub = this.authService.addRoleToUser({
+      roleName: role,
+      username: this.user.username
+    }).subscribe(suerRole => {
       this.isloading = false;
       this.loaduser();
     }, error => {
@@ -87,7 +107,10 @@ export class UserDetailsComponent implements OnInit {
 
   private callRemoveRole(role: string) {
     this.isloading = true;
-    this.authService.removeRoleFromUser({roleName: role, username: this.user.username}).subscribe(suerRole => {
+    this.authServiceRemoveRoleSub = this.authService.removeRoleFromUser({
+      roleName: role,
+      username: this.user.username
+    }).subscribe(suerRole => {
       this.isloading = false;
       this.loaduser();
     }, error => {
