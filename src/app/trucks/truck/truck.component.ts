@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {TruckModel} from "../../model/truck.model";
 import {AuthService} from "../../auth.service";
 import {UserModel} from "../../model/user.model";
-import {Observable, Subscription} from "rxjs";
+import {lastValueFrom, Observable, Subscription} from "rxjs";
 import {DisableButtonsService} from "../../disable-buttons.service";
 import {TautlinerModel} from "../../model/tautliner.model";
 import {DriverModel} from "../../model/driver.model";
@@ -81,36 +81,27 @@ ${this.truck.driverIdDocument ? 'id:' + this.truck.driverIdDocument : ''}`
     document.body.removeChild(selBox);
   }
 
-  onEditSave() {
+  async onEditSave() {
     if (this.truckEditTriggered) {
+      this.isLoading = true;
       if (this.selectedTautliner === '')
         this.selectedTautliner = undefined;
       if (this.selectedDriver !== this.truck.driverid) {
-        this.isLoading = true;
-        this.couplingService.coupleTruckWithDriver({
+        const couple$ = this.couplingService.coupleTruckWithDriver({
           truck: this.truck.truckPlates,
           driver: this.selectedDriver
-        }).subscribe(couple => {
-          this.isLoading = false;
-          this.dataChanged.emit();
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        })
+        });
+        await lastValueFrom(couple$);
       }
       if (this.selectedTautliner !== this.truck.tautlinerPlates) {
-        this.isLoading = true;
-        this.couplingService.coupleTruckWithTautliner({
+        const couple$ = this.couplingService.coupleTruckWithTautliner({
           truck: this.truck.truckPlates,
           tautliner: this.selectedTautliner
-        }).subscribe(couple => {
-          this.isLoading = false;
-          this.dataChanged.emit();
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        })
+        });
+        await lastValueFrom(couple$);
       }
+      this.isLoading = false;
+      this.dataChanged.emit();
     }
     this.truckEditTriggered = !this.truckEditTriggered;
 
