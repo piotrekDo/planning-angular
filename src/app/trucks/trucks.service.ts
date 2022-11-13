@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {PageModel} from "../model/page.model";
+import { FavoritesModel } from '../model/favorites-model';
 import {TruckModel} from "../model/truck.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
@@ -11,6 +12,17 @@ import {environment} from "../../environments/environment";
 export class TrucksService {
 
   constructor(private http: HttpClient) {
+  }
+
+  addTruckToFavorites(favorites: FavoritesModel): Observable<FavoritesModel> {
+    console.log(favorites);
+    return this.http.post<FavoritesModel>(environment.mainUrl + 'favorites', favorites);
+  }
+
+  removeTruckFromFavorites(favorites: FavoritesModel): Observable<FavoritesModel> {
+    return this.http.delete<FavoritesModel>(environment.mainUrl + 'favorites', {
+      body: favorites
+    })
   }
 
   getAllTrucks(): Observable<PageModel<TruckModel>> {

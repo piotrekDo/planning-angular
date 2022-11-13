@@ -33,6 +33,7 @@ import { RecoverPasswordComponent } from './recover-password/recover-password.co
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { TautlinerViewComponent } from './tautliners/tautliner-view/tautliner-view.component';
 import { DriverViewComponent } from './drivers/driver-view/driver-view.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { DriverViewComponent } from './drivers/driver-view/driver-view.component
     TruckViewComponent,
     TautlinerViewComponent,
     DriverViewComponent,
+    FavoritesComponent,
   ],
   imports: [
     BrowserModule,
