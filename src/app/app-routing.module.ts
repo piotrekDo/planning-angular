@@ -18,12 +18,14 @@ import {RecoverPasswordComponent} from "./recover-password/recover-password.comp
 import {TruckViewComponent} from "./trucks/truck-view/truck-view.component";
 import {TautlinerViewComponent} from "./tautliners/tautliner-view/tautliner-view.component";
 import {DriverViewComponent} from "./drivers/driver-view/driver-view.component";
+import { FavoritesComponent } from './favorites/favorites.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'main', component: MainComponent, canActivate: [AuthGuardService]},
+  {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService]},
   {path: 'trucks', component: TrucksComponent, canActivate: [AuthGuardService]},
   {path: 'trucks/:plates', component: TruckViewComponent, canActivate: [AuthGuardService]},
   {path: 'tautliners', component: TautlinersComponent, canActivate: [AuthGuardService]},

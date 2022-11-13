@@ -1,3 +1,7 @@
+<td (click)="onFavorite()">
+  <i *ngIf="!isFavorite" class="bi bi-star"></i>
+  <i *ngIf="isFavorite" class="bi bi-star-fill"></i>
+</td>
 <td style="cursor: pointer" [hidden]="carrierMode" [routerLink]="['/carriers', truck.carrierSap]">
   {{truck.carrierName}}
 </td>

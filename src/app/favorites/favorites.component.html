@@ -1,0 +1,25 @@
+<div *ngIf="isLoading" class="container loading-container">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<section class="mt-5" *ngIf="!isLoading">
+  <h3>Favorites</h3>
+  <h3 *ngIf="favoritesTrucks.length < 1" >No favorites trucks</h3>
+  <table *ngIf="favoritesTrucks.length > 0" class="table table-striped mt-5" style="border-radius: 20px">
+    <thead>
+    <tr>
+      <th class="text-center"><i class="bi bi-star-fill"></i></th>
+      <th class="text-center">Carrier</th>
+      <th class="text-center">Plates</th>
+      <th class="text-center">Tautliner</th>
+      <th class="text-center">Driver</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-truck
+        [truck]="truck" *ngFor="let truck of favoritesTrucks.slice(0)
+  | sort:'carrierName': false"
+    ></tr>
+    </tbody>
+  </table>
+</section>

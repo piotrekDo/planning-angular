@@ -4,26 +4,5 @@
 <td>{{carrier.rate}}</td>
 <td>{{carrier.trucks}}</td>
 <td>{{carrier.megas}}</td>
-<td>
-  <button [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#onDeleteModal"
-  >X
-  </button>
-</td>
 
-<div id="onDeleteModal" class="modal fade " data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
-    <div class="modal-content">
-      <div class="modal-header d-flex justify-content-center">
-        <h2>Do you wish to delete tautliner {{carrier.name}}?</h2>
-      </div>
-      <div class="modal-body d-md-flex justify-content-evenly d-sm-block">
-        <button class="btn btn-warning" data-bs-dismiss="modal"
-                (click)="onCarrierDelete()">Yes, please
-        </button>
-        <button class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
+
