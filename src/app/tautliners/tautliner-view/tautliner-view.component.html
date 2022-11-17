@@ -7,8 +7,8 @@
     <div class="col-auto">
       <div class="h3 position-relative">{{tautliner.tautlinerPlates}}</div>
     </div>
-    <div class="col-auto" style="padding-left: 0">
-      <span class="badge badge-pill bg-danger">XPO</span>
+    <div *ngIf="tautliner.xpo" class="col-auto" style="padding-left: 0">
+      <span style="font-size: .7rem" class="badge badge-pill bg-danger">XPO</span>
     </div>
     <div class="col">
       <button class="btn btn-primary"
@@ -29,13 +29,22 @@
   <div *ngIf="!tautliner.truckPlates" class="row">
     <p>Truck: None</p>
   </div>
-  <div *ngIf="tautliner.truckPlates" class="row" style="cursor: pointer"
-       [routerLink]="['/trucks', tautliner.truckPlates]">
-    <p>Truck: {{tautliner.truckPlates}}</p>
+
+  <div *ngIf="tautliner.truckPlates" class="row">
+    <div class="col-auto" style="cursor: pointer;padding-right: 0"
+    [routerLink]="['/trucks', tautliner.truckPlates]">
+      <p class="position-relative">Truck: {{tautliner.truckPlates}}</p>
+    </div>
+    <div *ngIf="tautliner.truckIsMega" class="col-auto" style="padding-left: 0">
+      <span style="font-size: .7rem" class="badge badge-pill bg-success">MEGA</span>
+    </div>
   </div>
+
   <div class="row">
     <p>Technical inspection term: {{tautliner.techInspection | date: 'fullDate'}}</p>
   </div>
+
+  <app-logs [uniqueIdentifier]="tautliner.tautlinerPlates"></app-logs>
 </div>
 
 

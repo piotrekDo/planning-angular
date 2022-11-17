@@ -1,5 +1,5 @@
 <td style="cursor: pointer;" [routerLink]="['/carriers', tautliner.carrierSap]">{{tautliner.carrierName}}</td>
-<td  class="position-relative text-center" style="cursor: pointer" [routerLink]="['/tautliners', tautliner.tautlinerPlates]"
+<td  class="position-relative text-center" style="cursor: pointer;" [routerLink]="['/tautliners', tautliner.tautlinerPlates]"
      [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
   {{tautliner.tautlinerPlates}}
   <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-danger">
@@ -7,10 +7,13 @@
   </span>
 </td>
 <td *ngIf="!tautliner.truckPlates"></td>
-<td *ngIf="tautliner.truckPlates" style="cursor: pointer" [routerLink]="['/trucks', tautliner.truckPlates]">
-  {{tautliner.truckPlates}}
+<td *ngIf="tautliner.truckPlates" class="position-relative text-center" style="cursor: pointer" [routerLink]="['/trucks', tautliner.truckPlates]"
+     [ngClass]="{red : techInspectionDatePast }" [title]="'Tech inspection term: ' + (tautliner.techInspection | date)">
+     {{tautliner.truckPlates}}
+  <span *ngIf="tautliner.xpo" class="position-absolute top-0 start-95 translate-middle badge rounded-pill bg-success">
+    MEGA
+  </span>
 </td>
-<td>{{tautliner.xpo}}</td>
 <td>{{tautliner.techInspection | date: 'fullDate'}}</td>
 <td>
   <button *ngIf="tautliner.xpo" [hidden]="activeUser.roles.indexOf('MODERATOR') < 0" class="btn btn-danger btn-sm"

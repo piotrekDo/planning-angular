@@ -33,6 +33,8 @@
   <div *ngIf="driver.truckPlates" class="row" style="cursor: pointer" [routerLink]="['/trucks', driver.truckPlates]">
     <p>Truck: {{driver.truckPlates}}</p>
   </div>
+
+  <app-logs [uniqueIdentifier]="driverUniqueIdentifier"></app-logs>
 </div>
 
 

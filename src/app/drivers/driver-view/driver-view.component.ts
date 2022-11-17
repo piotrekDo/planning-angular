@@ -15,6 +15,7 @@ import {AuthService} from "../../auth.service";
 export class DriverViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   driver: DriverModel;
+  driverUniqueIdentifier: string;
   formSuccess: any;
   editDriverForm: FormGroup;
   activeUser: UserModel;
@@ -47,7 +48,7 @@ export class DriverViewComponent implements OnInit, OnDestroy {
   createEditDriverForm() {
     this.editDriverForm = new FormGroup({
       'fullName': new FormControl(this.driver.fullName, [Validators.required]),
-      'tel': new FormControl(this.driver.tel, [Validators.required, Validators.pattern('\\d{9}')]),
+      'tel': new FormControl(this.driver.tel.split('-').join(''), [Validators.required, Validators.pattern('\\d{9}')]),
       'idDocument': new FormControl(this.driver.idDocument, [Validators.required, Validators.pattern('^[a-zA-z]{2,3}[a-zA-Z0-9]{6,7}')])
     })
   }
@@ -56,6 +57,7 @@ export class DriverViewComponent implements OnInit, OnDestroy {
     this.driversServiceGetDriverSub = this.driversService.getDriver(this.route.snapshot.params['id']).subscribe(driver => {
       this.isLoading = true
       this.driver = driver;
+      this.driverUniqueIdentifier = this.driver.fullName + ' ' + this.driver.idDocument;
       this.createEditDriverForm();
       this.isLoading = false;
     })

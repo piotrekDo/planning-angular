@@ -5,4 +5,5 @@ export interface TautlinerModel {
   carrierSap: string;
   truckPlates: string;
   xpo: boolean;
+  truckIsMega: boolean;
 }

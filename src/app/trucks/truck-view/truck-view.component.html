@@ -28,8 +28,8 @@
          [routerLink]="['/tautliners', truck.tautlinerPlates]">
       <p class="position-relative">Tautliner: {{truck.tautlinerPlates}}</p>
     </div>
-    <div class="col-auto" style="padding-left: 0">
-      <span class="badge badge-pill bg-danger">XPO</span>
+    <div *ngIf="truck.tautlinerIsXpo" class="col-auto" style="padding-left: 0">
+      <span style="font-size: .7rem" class="badge badge-pill bg-danger">XPO</span>
     </div>
   </div>
   <div *ngIf="!truck.tautlinerPlates" class="row">
@@ -43,6 +43,8 @@
   <div *ngIf="!truck.driverid" class="row">
     <p>Driver: None</p>
   </div>
+
+  <app-logs [uniqueIdentifier]="truck.truckPlates"></app-logs>
 </div>
 
 

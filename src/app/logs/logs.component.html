@@ -1,0 +1,7 @@
+<div class="container my-5">
+  <h4>Logs History</h4>
+  <div class="row" *ngFor="let log of logs">
+    <span class="col-sm">{{log.message}}</span>
+    <span class="col-sm">{{log.time | date: 'medium'}}</span>
+  </div>
+</div>
