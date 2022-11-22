@@ -3,7 +3,11 @@
 
 ![planning2](https://user-images.githubusercontent.com/106580620/203251299-fd6ba87c-7171-4b8d-b51b-c7d9ba135a46.gif)
 
+<h1 align="center"><a target="_blank" href="https://planning-piodo.web.app/main">🚚 SEE IT YOURSELF! 🚚</a></h1>
+<h3 align="center"><a target="_blank" href="https://planning-piodo.web.app/main">🚚 Login as admin1 / admin 🚚</a></h3>
 
+<br/>
+<br/>
 
 Presented software constitutes a front-end view for Planning application. Provides a variety of tools to manage your
 fleet of carriers,
@@ -14,6 +18,8 @@ only selected trucks.
 
 ## VERSION LOG
 
+-1.2.0 Added logs history.
+-1.1.0 Favorites view added.
 -1.0.0 Initial version providing basic operations.
 
 ## Registration and users
