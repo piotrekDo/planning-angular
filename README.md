@@ -1,5 +1,10 @@
 # ANGULAR for PLANNING
 
+
+![planning2](https://user-images.githubusercontent.com/106580620/203251299-fd6ba87c-7171-4b8d-b51b-c7d9ba135a46.gif)
+
+
+
 Presented software constitutes a front-end view for Planning application. Provides a variety of tools to manage your
 fleet of carriers,
 and their fleet vehicle, as well as register new users and magae them as well. In future releases I aim to provide
