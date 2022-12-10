@@ -15,7 +15,6 @@ import { TautlinerModel } from '../../model/tautliner.model';
 import { DriverModel } from '../../model/driver.model';
 import { CouplingService } from '../../coupling.service';
 import { TrucksService } from '../trucks.service';
-import { userInfo } from 'os';
 import { FavoritesService } from 'src/app/favorites/favorites.service';
 
 @Component({
@@ -100,7 +99,7 @@ export class TruckComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onCopyToClipboard() {
+  onCopyToClipboard(copybtn: HTMLButtonElement) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -118,6 +117,8 @@ ${this.truck.driverIdDocument ? 'id:' + this.truck.driverIdDocument : ''}`;
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    copybtn.classList.add('bump');
+    setTimeout(() => {copybtn.classList.remove('bump')}, 300)
   }
 
   async onEditSave() {

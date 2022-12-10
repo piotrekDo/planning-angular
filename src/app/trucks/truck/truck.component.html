@@ -59,7 +59,7 @@
 
 
 <td *ngIf="!carrierTabEditMode">
-  <button class="btn btn-sm btn-primary" (click)="onCopyToClipboard()">Copy</button>
+  <button class="btn btn-sm btn-primary" #copybtn (click)="onCopyToClipboard(copybtn)">Copy</button>
 </td>
 
 <td *ngIf="carrierTabEditMode">
