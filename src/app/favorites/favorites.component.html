@@ -2,7 +2,7 @@
   <app-loading-spinner></app-loading-spinner>
 </div>
 
-<section class="mt-5" *ngIf="!isLoading">
+<section class="padding-70px container mt-5" *ngIf="!isLoading">
   <h3>Favorites</h3>
   <h3 *ngIf="favoritesTrucks.length < 1" >No favorites trucks</h3>
   <table *ngIf="favoritesTrucks.length > 0" class="table table-striped mt-5" style="border-radius: 20px">

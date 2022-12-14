@@ -2,7 +2,7 @@
   <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="container">
+<div class="padding-70px container">
   <div class="row mt-5 mb-3">
     <div class="col-auto" style="padding-right: 0">
       <div class="h3 position-relative">{{truck.truckPlates}}</div>
@@ -45,6 +45,11 @@
   </div>
 
   <app-logs [uniqueIdentifier]="truck.truckPlates"></app-logs>
+  <div class="row mt-5">
+    <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onTruckDelete()">Delete
+      Truck
+    </button>
+  </div>
 </div>
 
 
@@ -91,12 +96,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row mt-5">
-  <button *ngIf="activeUser.roles.indexOf('MODERATOR') > -1" class="btn btn-danger" (click)="onTruckDelete()">Delete
-    Truck
-  </button>
 </div>
 
 

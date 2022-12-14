@@ -1,0 +1,34 @@
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -10;
+}
+
+.overlay-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+.login-section {
+  top: 20vh;
+  left: 0;
+  position: relative;
+  z-index: 100;
+}
+
+.login-section h3, h5 {
+  color: wheat;
+}
+
+.btn-forgot {
+  color: rgb(254, 254, 254);
+}

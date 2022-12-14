@@ -35,6 +35,7 @@ import { TautlinerViewComponent } from './tautliners/tautliner-view/tautliner-vi
 import { DriverViewComponent } from './drivers/driver-view/driver-view.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { LogsComponent } from './logs/logs.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { LogsComponent } from './logs/logs.component';
     DriverViewComponent,
     FavoritesComponent,
     LogsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
