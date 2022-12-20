@@ -1,80 +1,46 @@
-<video autoplay muted loop id="myVideo">
-  <source src="assets/bg.mp4" type="video/mp4">
+<video class="background-video" preload="auto" onloadedmetadata="this.muted=true" autoplay loop muted>
+  <source src="assets/highway.mp4" type="video/mp4">
 </video>
+<section class="overlay-section"></section>
 
-<div *ngIf="userLogged" class="container app-carousel">
-  <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+<span id="main-section-loginbtn" class="login-button loginBtn"><span><span><a routerLink="/login"></a></span></span></span>
+<section class="section-one">
+    <h1 id="main-header-text">Welcome to Planning</h1>
+    <h3 id="main-header-slogan-text">we believe simplicity is the key</h3>
+</section>
+<section class="section-two-container">
+  <div id="section-two-panel-0" class="panel"><strong><i>Our destiny is to deliver you the solution you need</i></strong></div>
+  <div id="section-two-panel-1" class="panel"><p><strong><i>To simplify your daily work</i></strong></p></div>
+</section>
+<section class="section-three">
+<div class="content">
+  <div class="cooperate">
+    <div class="cooperate-element">
+      <h1 id="footer-header">Intrested in cooperation?</h1>
+      <h3 id="footer-text">Feel free to reach us</h3>
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active" data-bs-interval="10000">
-        <div class="app-carousel-item"></div>
-        <div class="carousel-caption d-none d-md-block">
-          <h5>First slide label</h5>
-          <p>Some representative placeholder content for the first slide.</p>
-        </div>
-      </div>
-      <div class="carousel-item" data-bs-interval="2000">
-        <div class="app-carousel-item"></div>
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Second slide label</h5>
-          <p>Some representative placeholder content for the second slide.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="app-carousel-item"></div>
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Third slide label</h5>
-          <p>Some representative placeholder content for the third slide.</p>
-        </div>
-      </div>
+    <div class="social">
+      <ul>
+        <li class="contact-link"><a href="mailto:piotr.domagalski@yahoo.com">E-mail <i class="fa fa-envelope"></i></a></li>
+        <li class="contact-link"><a href="https://github.com/piotrekDo" target="_blank">Github <i class="fa fa-github"></i></a></li>
+        <li class="contact-link"><a href="https://linkedin.com/in/piodom" target="_blank">Linkedin <i class="fa fa-linkedin"></i></a></li>
+      </ul>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
+    <span class="loginBtn"><span><span><a routerLink="/login"></a></span></span></span>
 </div>
-<div *ngIf="!userLogged" class="container-sm mt-5">
-  <div class="row">
-    <div class="col-md-4 col-md-7">
-      <h3>Welcome to planning</h3>
-      <h5>Please log in</h5>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <form #form="ngForm" (ngSubmit)="onLogin(form)">
-        <div class="form-floating">
-          <input [disabled]="isLoading" type="email" id="username" class="form-control"
-                 placeholder="username" ngModel name="username" required/>
-          <label for="username" class="form-label">Username</label>
-        </div>
-        <div class="form-floating my-2">
-          <input [disabled]="isLoading" type="password" id="password" class="form-control"
-                 placeholder="password" ngModel name="password" required/>
-          <label for="password" class="form-label">Password</label>
-        </div>
-        <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>{{error}}</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <button *ngIf="!isLoading" [disabled]="form.invalid" class="btn btn-success" type="submit">Login</button>
-        <button *ngIf="isLoading" class="btn btn-success" type="button" disabled>
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          Loading...
-        </button>
-        <button *ngIf="!isLoading" type="button" class="btn btn-link mx-3" routerLink="/recover-password">Forgot password?</button>
-      </form>
-    </div>
-  </div>
+<div class="footer-dark">
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-6 item text">
+                  <h3>Planning</h3>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt sed voluptatum suscipit aut mollitia temporibus voluptatem quisquam dolorum optio ea, possimus eum quibusdam repellendus rem maiores dolorem quia, vero explicabo?</p>
+              </div>
+          </div>
+          <p class="copyright">Planning © 2022</p>
+      </div>
+  </footer>
 </div>
+</section>
 
