@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoading = false;
   userLogged = false;
   error: string = null;
+  currentYear: number = new Date().getFullYear();
   private authServiceActiveUserSub: Subscription;
   private authServiceLogInSub: Subscription;
 
