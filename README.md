@@ -18,8 +18,8 @@ only selected trucks.
 
 ## VERSION LOG
 
--1.2.0 Added logs history.
--1.1.0 Favorites view added.
+-1.2.0 Added logs history.  
+-1.1.0 Favorites view added.  
 -1.0.0 Initial version providing basic operations.
 
 ## Registration and users
